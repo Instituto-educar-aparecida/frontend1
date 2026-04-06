@@ -19,7 +19,7 @@ export function StatsCard({
   title,
 }: IStatsCard) {
   return (
-    <ContainerCard className="p-6 flex-1 max-w-76 gap-4 ">
+    <ContainerCard className="p-6 w-full flex-1 max-w-80 gap-4 ">
       <IconCard icon={Icon} className={className} status={status} />
       <div className="flex flex-col">
         <span className="text-xl font-bold text-gray-100">{description}</span>
