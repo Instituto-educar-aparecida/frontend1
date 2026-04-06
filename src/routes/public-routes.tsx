@@ -2,6 +2,7 @@ import { Route, Routes, Navigate } from "react-router";
 import PublicLayout from "../layouts/public-layout";
 import { LoginPage } from "../feature/auth/pages/login-page";
 import { RegisterPage } from "../feature/auth/pages/register-page";
+// import { RegistrationClass } from "../feature/auth/pages/registration-class";
 
 export default function PublicRoutes() {
   return (
