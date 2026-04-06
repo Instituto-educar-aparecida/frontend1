@@ -10,6 +10,7 @@
   --color-*: initial;
   --font-*: initial;
 
+  --color-violet-900: #4f46e5;
   --color-violet-800: #581c87;
   --color-violet-500: #7e22ce;
   --color-violet-600: #8b5cf6;
@@ -29,15 +30,16 @@
   --color-primary: #0f172a;
   --color-secondary: #1e293b;
 
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
+  --color-green: #10b981;
+  --color-yellow: #f59e0b;
+  --color-red: #ef4444;
 
   --font-sans: "InterVariable", sans-serif;
 
   --text-display: 3rem; /* 48px */
   --text-heading: 1.875rem; /* 30px */
   --text-body: 1rem; /* 16px */
+  --text-label: 0.625rem; /* 10px */
   --text-caption: 0.75rem; /* 12px */
 }
 
@@ -86,5 +88,19 @@
         48px 48px,
         48px 48px;
     }
+  }
+}
+
+@layer utilities {
+  .progress-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-smooth::-webkit-progress-value {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .progress-smooth::-moz-progress-bar {
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }

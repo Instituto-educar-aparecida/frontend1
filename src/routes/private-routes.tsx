@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router";
-import { ProtectedRoute } from "./protect-route"; // nome correto
+import { ProtectedRoute } from "./protect-route";
 import { PrivateLayout } from "../layouts/private-layout";
-("../layouts/private-layout"); // nome correto
+import { StudentDashboard } from "../feature/student-dashboard/pages";
 
 export default function PrivateRoutes() {
   return (
@@ -13,8 +13,7 @@ export default function PrivateRoutes() {
           </ProtectedRoute>
         }
       >
-        <Route path="/" element={<div>Página Privada</div>} />
-        {/* ou */}
+        <Route path="/" element={<StudentDashboard />} />
       </Route>
     </Routes>
   );
