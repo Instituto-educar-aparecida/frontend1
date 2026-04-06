@@ -4,5 +4,7 @@
       ".continue/**/*.yaml",
       "file:///Users/macbook/Documents/projetos/ONG/Frontend-e-estilistica./.continue/mcpServers/stitch.yaml"
     ]
-  }
+  },
+  "cSpell.words": ["vidstack"],
+  "postman.settings.dotenv-detection-notification-visibility": false
 }
