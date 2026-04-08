@@ -17,7 +17,7 @@ import { AdminLoginPage } from "@/feature/auth/pages/admin-login";
 import { Home } from "@/feature/landing-page/page";
 import CoursesPage from "@/feature/courses/pages";
 import VideoLesson from "@/feature/video-lesson/page";
-import AdminDashboard from "@/components/admin";
+
 import { routes } from "@/types/routes-front";
 //import { AulasPage } from "@/pages/aulas";
 
@@ -53,14 +53,20 @@ export const router = createBrowserRouter([
       {
         element: <PrivateLayout roles={["admin"]} />,
         children: [
-          { path: routes.admin.dashboard, element: <AdminDashboard /> },
+          {
+            path: routes.admin.dashboard,
+            element: <h1>Dashboard do Admin</h1>,
+          },
           //{ path: routes.admin.courses, element: <CoursesPage /> },
         ],
       },
       {
         element: <PrivateLayout roles={["professor"]} />,
         children: [
-          { path: routes.teacher.dashboard, element: <StudentDashboard /> },
+          {
+            path: routes.teacher.dashboard,
+            element: <h1>Dashboard do Professor</h1>,
+          },
           //{ path: routes.teacher.courses, element: <CoursesPage /> },
         ],
       },
