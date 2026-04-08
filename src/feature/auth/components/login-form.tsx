@@ -7,7 +7,7 @@ import {
   loginResolver,
   type LoginFormData,
 } from "../types/authSchema";
-import { useLogin } from "../hooks/useLogin";
+import { useLogin } from "../hooks/use-login";
 import { Button } from "../../../components/button";
 
 export const LoginForm = () => {

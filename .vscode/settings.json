@@ -1,0 +1,10 @@
+{
+  "yaml.schemas": {
+    "file:///Users/macbook/.vscode/extensions/continue.continue-1.2.17-darwin-arm64/config-yaml-schema.json": [
+      ".continue/**/*.yaml",
+      "file:///Users/macbook/Documents/projetos/ONG/Frontend-e-estilistica./.continue/mcpServers/stitch.yaml"
+    ]
+  },
+  "cSpell.words": ["vidstack"],
+  "postman.settings.dotenv-detection-notification-visibility": false
+}

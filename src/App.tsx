@@ -1,11 +1,9 @@
-import { BrowserRouter } from "react-router";
+import { BrowserRouter, RouterProvider } from "react-router";
 import { LoginPage } from "./feature/auth/pages/login-page";
-import AppRoutes from "./routes";
+
+import { ProtectRoute } from "./routes/routes-layout";
+import { router } from "./routes";
 
 export default function App() {
-  return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
-  );
+  return <RouterProvider router={router} />;
 }

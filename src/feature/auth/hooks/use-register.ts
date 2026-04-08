@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { api } from "../../../lib/axios";
+import api from "../../../lib/axios";
 import { type RegisterFormData, RegisterSchema } from "../types/authSchema";
 
 interface RegisterResponse {
@@ -9,10 +9,7 @@ interface RegisterResponse {
 export function useRegister() {
   return useMutation({
     mutationFn: async (data: RegisterFormData): Promise<RegisterResponse> => {
-      const response = await api.post<RegisterResponse>(
-        "api/auth/register",
-        data,
-      );
+      const response = await api.post<RegisterResponse>("/auth/register", data);
       return response.data;
     },
     onSuccess: (data) => {

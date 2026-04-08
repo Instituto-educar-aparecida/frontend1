@@ -8,17 +8,17 @@ import { Input } from "../../../components/input";
 import { useForm, FormProvider } from "react-hook-form";
 import {
   registerDefaultValues,
-  resolver,
+  registerResolver,
   type RegisterFormData,
 } from "../types/authSchema";
-import { useRegister } from "../hooks/useRegister";
+import { useRegister } from "../hooks/use-register";
 import { Button } from "../../../components/button";
 
 export const RegisterForm = () => {
   const registerMutation = useRegister();
 
   const methods = useForm<RegisterFormData>({
-    resolver: resolver,
+    resolver: registerResolver,
     defaultValues: registerDefaultValues,
   });
 

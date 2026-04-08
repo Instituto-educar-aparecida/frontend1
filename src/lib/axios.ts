@@ -1,25 +1,32 @@
 import axios from "axios";
 
-export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  timeout: 10000,
+import { useAuthStore } from "../store/use-auth-store";
+
+import { navigate } from "./router";
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:3000",
 });
 
+// injeta o token em todas as requisições automaticamente
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("auth_token");
+  const token = useAuthStore.getState().token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
+// se o backend retornar 401, desloga automaticamente
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem("auth_token");
-      window.location.href = "login";
+      useAuthStore.getState().logout();
+      navigate("/login");
     }
     return Promise.reject(error);
   },
 );
+
+export default api;

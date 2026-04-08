@@ -7,7 +7,7 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "target": "es2020",
-    "lib": ["DOM", "DOM.Iterable", "ES6"],
+    "lib": ["DOM", "DOM.Iterable", "ES2017"],
     "types": [],
 
     "esModuleInterop": true,
@@ -30,7 +30,11 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@types/*": ["./types/*"]
+    }
   },
 
   "include": ["src/**/*", "types/**/*"],
