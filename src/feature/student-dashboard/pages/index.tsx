@@ -8,6 +8,7 @@ import CertificateCard from "../components/certificate-card";
 import { IoBookOutline } from "react-icons/io5";
 import { FaRankingStar } from "react-icons/fa6";
 import { LiaHourglass } from "react-icons/lia";
+import { useStudentDashboard } from "../hooks/use-student-dashboard";
 
 interface Course {
   id: number | string;
@@ -19,6 +20,8 @@ interface Course {
 }
 
 const StudentDashboard = () => {
+  const dashboardData = useStudentDashboard();
+  //console.log(dashboardData);
   const courses: Course[] = [
     {
       id: 1,

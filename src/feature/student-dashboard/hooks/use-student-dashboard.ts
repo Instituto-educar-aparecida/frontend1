@@ -1,12 +1,12 @@
 import { useQueries } from "@tanstack/react-query";
-import { dashboardService } from "../sevices/student-service";
+import { studentService } from "../services/student-service";
 
 export function useStudentDashboard() {
   return useQueries({
     queries: [
       {
         queryKey: ["studentDashboardData"],
-        queryFn: dashboardService.getDashboardData,
+        queryFn: studentService.getDashboardData,
       },
     ],
   });
