@@ -12,10 +12,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-<<<<<<< HEAD
     strictPort: true,
-=======
->>>>>>> feature/cadastro-aulas
     port: 5174,
     hmr: {
       clientPort: 5174,
