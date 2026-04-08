@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { videoProgressService } from "../services/video-services-lesson";
+import type { VideoProgressPayload } from "../types/video-progress";
 
 /**
  * Só busca o progresso salvo — sem depender do contexto do MediaPlayer.
