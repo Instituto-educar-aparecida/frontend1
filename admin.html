@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Sistema Educar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #6366f1; --dark: #020617; }
+        body { font-family: 'Manrope', sans-serif; background: var(--dark); color: #f1f5f9; }
+        .bebas { font-family: 'Bebas Neue', sans-serif; }
+        .glass-card { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .table-row:hover { background: rgba(99, 102, 241, 0.05); }
+    </style>
+</head>
+<body class="flex min-h-screen">
+
+    <aside class="w-64 border-r border-indigo-500/10 bg-slate-950 p-6 hidden lg:flex flex-col">
+        <div class="bebas text-3xl tracking-widest text-indigo-500 mb-10">CORE_ADMIN</div>
+        
+        <nav class="space-y-2 flex-grow">
+            <a href="#" class="flex items-center gap-3 p-3 rounded-xl bg-indigo-500/10 text-indigo-400 font-bold border border-indigo-500/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                Visão Geral
+            </a>
+            <a href="#" class="flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                Gerenciar Alunos
+            </a>
+            <a href="#" class="flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                Cursos e Aulas
+            </a>
+        </nav>
+
+        <div class="pt-6 border-t border-slate-800">
+            <p class="text-[10px] font-mono text-slate-500 uppercase">Docker Container: V2.4.0</p>
+            <p class="text-[10px] font-mono text-emerald-500 uppercase">Database: Online</p>
+        </div>
+    </aside>
+
+    <main class="flex-grow p-8">
+        <header class="flex justify-between items-center mb-10">
+            <div>
+                <h1 class="bebas text-4xl tracking-wider">Painel de Controle</h1>
+                <p class="text-slate-500 text-sm">Monitoramento em tempo real do Instituto Educar</p>
+            </div>
+            <button class="bg-indigo-600 hover:bg-indigo-500 px-6 py-2 rounded-lg font-bold text-sm transition-all">+ Novo Curso</button>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+            <div class="glass-card p-6 rounded-2xl">
+                <p class="text-slate-500 text-xs font-bold uppercase">Total Alunos</p>
+                <p class="text-3xl font-black">0</p>
+            </div>
+            <div class="glass-card p-6 rounded-2xl">
+                <p class="text-slate-500 text-xs font-bold uppercase">Aulas Assistidas</p>
+                <p class="text-3xl font-black text-indigo-400">0</p>
+            </div>
+            <div class="glass-card p-6 rounded-2xl">
+                <p class="text-slate-500 text-xs font-bold uppercase">Tempo Médio</p>
+                <p class="text-3xl font-black">0min</p>
+            </div>
+            <div class="glass-card p-6 rounded-2xl">
+                <p class="text-slate-500 text-xs font-bold uppercase">Carga Servidor</p>
+                <p class="text-3xl font-black text-amber-500">0%</p>
+            </div>
+        </div>
+
+        <div class="glass-card rounded-2xl overflow-hidden">
+            <div class="p-6 border-b border-white/5 flex justify-between items-center">
+                <h3 class="font-bold">Acessos Recentes</h3>
+                <span class="text-xs font-mono text-indigo-400">LOGS_DATABASE_READY</span>
+            </div>
+            <table class="w-full text-left text-sm">
+                <thead class="bg-white/5 text-slate-400 uppercase text-[10px] tracking-widest">
+                    <tr>
+                        <th class="p-4 font-bold">Usuário</th>
+                        <th class="p-4 font-bold">Última Atividade</th>
+                        <th class="p-4 font-bold">Progresso</th>
+                        <th class="p-4 font-bold">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    <tr class="table-row">
+                        <td class="p-4 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-slate-800"></div>
+                            <div>
+                                <p class="font-bold">Aluno teste 01</p>
+                                <p class="text-[10px] text-slate-500">ID: #8829</p>
+                            </div>
+                        </td>
+                        <td class="p-4 font-mono text-xs">Há 1 minutos</td>
+                        <td class="p-4">
+                            <div class="w-32 progress-bar"><div class="progress-fill" style="width: 90%;"></div></div>
+                        </td>
+                        <td class="p-4">
+                            <span class="flex items-center gap-2 text-emerald-400 text-xs">
+                                <span class="status-dot bg-emerald-500"></span> Online
+                            </span>
+                        </td>
+                    </tr>
+                    <tr class="table-row">
+                        <td class="p-4 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded bg-slate-800"></div>
+                            <div>
+                                <p class="font-bold">Aluno teste 02</p>
+                                <p class="text-[10px] text-slate-500">ID: #8830</p>
+                            </div>
+                        </td>
+                        <td class="p-4 font-mono text-xs">Há 1 minutos</td>
+                        <td class="p-4">
+                            <div class="w-32 progress-bar"><div class="progress-fill" style="width: 45%;"></div></div>
+                        </td>
+                        <td class="p-4">
+                            <span class="flex items-center gap-2 text-slate-500 text-xs">
+                                <span class="status-dot bg-slate-600"></span> Offline
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script>
+        (function(){
+        function decodeJwtPayload(token) {
+            try {
+            const payloadBase64 = token.split('.')[1];
+            const base64 = payloadBase64.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(escape(window.atob(base64)));
+            return JSON.parse(jsonPayload);
+            } catch (err) {
+            console.error('decodeJwtPayload error', err);
+            return null;
+            }
+        }
+
+        try {
+            const token = localStorage.getItem('edu_token');
+            const userRaw = localStorage.getItem('edu_user');
+            let user = userRaw ? JSON.parse(userRaw) : null;
+
+            if (!token && !user) {
+            window.location.replace(`${window.location.origin}/index.html`);
+            return;
+            }
+
+            if (token && !user) {
+            const claims = decodeJwtPayload(token);
+            user = {
+                email: claims?.email ?? null,
+                role: claims?.role ?? claims?.cargo ?? null,
+                name: claims?.nome ?? null
+            };
+            localStorage.setItem('edu_user', JSON.stringify(user));
+            }
+
+            const role = (user?.role || '').toString().toLowerCase();
+            if (!(role === 'admin' || role === 'administrator')) {
+            console.warn('Cargo inválido para admin:', user?.role);
+            window.location.replace(`${window.location.origin}/index.html`);
+            return;
+            }
+
+            const profileName = document.querySelector('.bebas') || document.getElementById('adminName');
+            if (profileName) profileName.textContent = user.name || user.email || 'Administrador';
+
+        } catch (err) {
+            console.error('erro init admin:', err);
+            window.location.replace(`${window.location.origin}/index.html`);
+        }
+        })();
+    </script>
+</body>
+</html>

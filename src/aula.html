@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula - Instituto Educar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+    <style>
+        :root {
+            --dark: #0f172a;
+            --primary: #6366f1;
+        }
+        body { font-family: 'Manrope', sans-serif; background: var(--dark); color: #f1f5f9; }
+        .bebas { font-family: 'Bebas Neue', sans-serif; }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header da Aula -->
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="bebas text-4xl tracking-wider text-indigo-400">CURSO DE TECNOLOGIA</h1>
+                <p class="text-slate-400 text-sm">Módulo 01: Introdução à Bridge Docker</p>
+            </div>
+            <div id="statusApi" class="flex items-center gap-2 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">
+                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                DOCKER CONNECTED
+            </div>
+        </header>
+
+        <!-- Player Principal -->
+        <main class="glass-card rounded-3xl overflow-hidden shadow-2xl shadow-indigo-500/10">
+            <div class="relative aspect-video bg-black">
+                <iframe id="videoPlayer" class="absolute inset-0 w-full h-full" frameborder="0" allow="autoplay; fullscreen"></iframe>
+                <!-- Loader -->
+                <div id="loader" class="absolute inset-0 flex items-center justify-center bg-slate-900">
+                    <div class="text-indigo-400 animate-bounce bebas text-2xl">Carregando Bridge...</div>
+                </div>
+            </div>
+            
+            <!-- Barra de Info da API -->
+            <footer class="p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-t border-indigo-500/10">
+                <div class="space-y-1">
+                    <h2 class="font-bold text-lg" id="videoTitle">Sincronizando metadados...</h2>
+                    <p class="text-xs text-slate-500 font-mono" id="apiLog">Esperando handshake do backend...</p>
+                </div>
+                <button onclick="marcarConcluida()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-8 py-3 rounded-xl transition-all active:scale-95 shadow-lg shadow-indigo-500/20">
+                    Marcar Aula como Concluída
+                </button>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        async function carregarAula() {
+            const player = document.getElementById('videoPlayer');
+            const log = document.getElementById('apiLog');
+            const title = document.getElementById('videoTitle');
+            const loader = document.getElementById('loader');
+
+            try {
+                // ID Real para o teste de amanhã
+                const videoId = '3c-iBn73dDE'; 
+
+                // 1. O Frontend bate na sua rota Docker que validamos (Porta 5173)
+                const response = await fetch(`http://localhost:5173/api/video/data/${videoId}`);
+                const data = await response.json();
+
+                if (data.embedUrl) {
+                    // 2. Alimenta o player com a Bridge
+                    player.src = data.embedUrl;
+                    
+                    // 3. Atualiza a UI com dados da API
+                    title.innerText = "Aula 01 - Primeiros Passos com JavaScript";
+                    log.innerText = `> SERVER: ${data.servidor} | SYNC: ${new Date(data.timestamp).toLocaleTimeString()}`;
+                    
+                    // Remove o loader após o Iframe carregar
+                    player.onload = () => loader.classList.add('hidden');
+                }
+            } catch (error) {
+                log.innerHTML = `<span class="text-red-400">ERRO: Backend Offline (Verifique a porta 5173)</span>`;
+                loader.innerText = "Erro na Conexão";
+            }
+        }
+
+        function marcarConcluida() {
+            alert("Fase 2: Aqui dispararemos o progresso para o Postgres!");
+        }
+
+        // Inicia a bridge assim que a página abre
+        window.addEventListener('load', carregarAula);
+    </script>
+</body>
+</html>
+
