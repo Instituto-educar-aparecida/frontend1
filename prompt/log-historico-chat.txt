@@ -1,0 +1,80 @@
+# RELATÓRIO DE CONTEXTO TÉCNICO E ARQUITETURAL - PROJETO ONG
+**Data do Registro:** 06 de Abril de 2026
+**Responsável:** Mentor Técnico (IA) / Thiago (Dev)
+
+---
+
+## 1. PERFIL DE ATUAÇÃO SOLICITADO
+O assistente deve atuar como **Mentor Técnico Sênior**. 
+**Diretriz principal:** Não entregar o código pronto. Guiar o desenvolvedor através de fases e etapas, explicando o "porquê" (decisão técnica) e o "como" (implementação), focando no aprendizado e na autonomia de um desenvolvedor júnior.
+
+---
+
+## 2. CONTEXTO DO PROJETO E ESTADO ATUAL
+O projeto é um sistema para uma ONG (Frontend-e-estilistica), construído com **React (Vite), TypeScript e Tailwind CSS**. 
+
+### Task Atual:
+Criação da tela de **Cadastro de Aulas para o Professor**. A tela deve seguir o design "Glassmorphism" presente na feature de Autenticação.
+
+### Localização dos Arquivos da Feature:
+`src/feature/registration-class/`
+*   `types/classSchema.ts`: Definição do contrato de dados e validação.
+*   `components/class-form.tsx`: Formulário funcional.
+*   `components/classRegistrationContainer.tsx`: Contêiner de layout em desenvolvimento.
+*   `pages/registration-class.tsx`: Página principal (Entry point).
+
+---
+
+## 3. DECISÕES TÉCNICAS TOMADAS (FUNDAMENTAÇÃO)
+
+### A. Validação com Zod e React Hook Form
+*   **Decisão:** Integramos o `classResolver` ao `useForm`.
+*   **Por que:** Garante que o formulário nunca seja submetido com dados inválidos (ex: URL de vídeo malformada ou título curto). O TypeScript fornece autocompletar e segurança de tipos em todo o formulário.
+
+### B. Uso de FormProvider no ClassForm
+*   **Decisão:** O formulário é envolvido por `<FormProvider {...form}>`.
+*   **Por que:** Os componentes de `Input` customizados (`src/components/input.tsx`) utilizam `useFormContext` e `Controller`. Isso permite que os inputs se conectem ao formulário automaticamente pelo `name`, sem necessidade de passar a prop `register` manualmente, mantendo o código limpo.
+
+### C. Estratégia de Layout (Custom Container)
+*   **Decisão:** Rejeitamos o `PrivateLayout` genérico em favor de um `ClassRegistrationContainer` inspirado no `AuthContainer`.
+*   **Por que:** O usuário (Thiago) deseja manter a consistência visual com a feature de Auth (efeitos de blur, glass-card e grid de fundo). Além disso, a tela de cadastro requer um layout de Dashboard (Sidebar + Área de Trabalho) que o `AuthContainer` original (focado em login) não suportava por ser muito estreito (`max-w-sm`).
+
+### D. Depuração (Debug Mode)
+*   **Decisão:** Mantemos um `console.log` de `formState.errors` no corpo do componente.
+*   **Por que:** Como o Zod bloqueia o `onSubmit` silenciosamente quando há erros, o log permite ao desenvolvedor ver instantaneamente qual regra de validação está impedindo o envio.
+
+---
+
+## 4. ARQUITETURA PROPOSTA (O PLANO)
+
+A tela será dividida em um Grid System do Tailwind:
+
+1.  **Left Container (Aside):** 
+    *   `SidebarNavigation`: Links de navegação.
+    *   `UserCard`: Nome, foto e papel do usuário.
+    *   `LogoutButton`: Ação de sair do sistema.
+2.  **Right Container (Section):**
+    *   `Header`: Menu superior com breadcrumbs ou busca.
+    *   `Main Content Area`: Dividida em duas colunas:
+        *   **Col 1 (7/12):** `ClassForm` (Formulário de inclusão).
+        *   **Col 2 (5/12):** `RecentClassesList` (Lista de aulas já subidas).
+
+---
+
+## 5. PRÓXIMAS ETAPAS IMEDIATAS (PARA O PRÓXIMO CHAT)
+
+1.  **Finalizar `classRegistrationContainer.tsx`:**
+    *   Implementar a estrutura de `main` com `min-h-screen`, `bg-primary` e `bg-grid-pattern`.
+    *   Criar o `div` central com classe `glass-card` e `max-w-7xl`.
+    *   Usar `flex` ou `grid` para criar o divisor entre o lado esquerdo (sidebar) e direito (conteúdo).
+2.  **Desenvolver o Componente de Sidebar:**
+    *   Deve ser um componente interno da feature para manter o isolamento, ou reutilizar o `Sidebar.tsx` global se ele for compatível com o design de vidro.
+3.  **Implementar Estado de Submissão:**
+    *   No `Button`, usar `formState.isSubmitting` para mostrar um spinner ou mudar o texto para "Salvando...".
+
+---
+
+## 6. NOTAS PARA O PRÓXIMO ASSISTENTE
+*   O link de teste é `http://localhost:5174/dev-class`.
+*   O arquivo `src/routes/public-routes.tsx` contém a rota temporária para desenvolvimento.
+*   Sempre verifique o arquivo `src/components/button.tsx` para garantir que as props `icon` e `title` estão sendo passadas corretamente.
