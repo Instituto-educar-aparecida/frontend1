@@ -16,6 +16,15 @@ Você precisa apenas do **Docker** instalado:
 4. Suba o ambiente: `docker compose up --build`
 5. Para instalar pacotes: `docker-compose exec frontend npm install "o pacote desejado"`
 
+## 🔄 Atualização de Dependências
+
+Use o fluxo abaixo para revisar e aplicar atualizações com a ferramenta versionada no repositório:
+
+1. Verifique versões disponíveis: `npm run deps:check`
+2. Atualize o `package.json`: `npm run deps:update`
+3. Regenere o lockfile: `npm install`
+4. Valide o projeto: `npm run build`
+
 ## 🌐 Portas do Projeto
 
 - **Backend:** http://localhost:5173 (Node.js + PostgreSQL)

@@ -12,7 +12,6 @@ import { LoginPage } from "@/feature/auth/pages/login-page";
 import StudentDashboard from "@/feature/student-dashboard/pages";
 import NotFoundPage from "@/pages/not-found";
 import { RegisterPage } from "@/feature/auth/pages/register-page";
-
 import { AdminLoginPage } from "@/feature/auth/pages/admin-login";
 import { Home } from "@/feature/landing-page/page";
 import CoursesPage from "@/feature/courses/pages";
@@ -33,6 +32,10 @@ export const router = createBrowserRouter([
           { path: routes.public.login, element: <LoginPage /> },
           { path: routes.public.register, element: <RegisterPage /> },
           { path: routes.public.adminLogin, element: <AdminLoginPage /> },
+
+          { path: routes.student.dashboard, element: <StudentDashboard /> },
+          { path: routes.student.courses, element: <CoursesPage /> },
+          { path: routes.student.courseDetail, element: <VideoLesson /> },
         ],
       },
     ],

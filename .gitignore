@@ -21,3 +21,12 @@ build/
 
 # Coisas do Sistema
 Thumbs.db
+
+
+# openspec
+.agents
+.claude
+.codex
+openspec
+AGENTS.md
+skills-lock.json
