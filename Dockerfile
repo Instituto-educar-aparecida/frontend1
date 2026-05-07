@@ -1,5 +1,5 @@
 # Estágio 1: Build do React/Vite
-FROM node:20-alpine AS build-stage
+FROM node:20-bullseye AS build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
