@@ -20,7 +20,7 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6 text-gray-700">
+        <div className="flex flex-wrap justify-center gap-6 text-gray-400">
           <a
             className="hover:text-violet-100 transition-colors opacity-80 hover:opacity-100"
             href="#"

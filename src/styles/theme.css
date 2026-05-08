@@ -8,53 +8,61 @@
 
 @theme {
   --color-*: initial;
-  --font-*: initial;
 
+  /* accent — mesmos em ambos os temas */
   --color-violet-900: #4f46e5;
-  --color-violet-800: #581c87;
-  --color-violet-500: #7e22ce;
   --color-violet-700: #a078ff;
   --color-violet-600: #8b5cf6;
   --color-violet-400: #9333ea;
   --color-violet-300: #a855f7;
   --color-violet-200: #d8b4fe;
   --color-violet-100: #a78bfa;
-  --color-violet-50: #d0bcff;
-  --color-violet-10: #cbc3d7;
-  --color-white: #ffffff;
+  --color-violet-50:  #d0bcff;
+  --color-violet-10:  #cbc3d7;
 
-  --color-black: #0f1115;
+  --color-blue:   #60a5fa;
+  --color-green:  #10b981;
+  --color-yellow: #f59e0b;
+  --color-red:    #ef4444;
+  --color-white:  #ffffff;
+  --color-black:  #0f1115;
 
-  --color-gray-50: #cbd5e1;
+  /* tokens que mudam por tema — valores padrão = escuro */
+  --color-primary:   #0f172a;
+  --color-secondary: #1e293b;
+  --color-surface:   #0f172a;
+
+  --color-gray-50:  #cbd5e1;
   --color-gray-100: #f8fafc;
   --color-gray-200: #e2e8f0;
   --color-gray-300: #94a3b8;
   --color-gray-400: #64748b;
   --color-gray-700: #475569;
   --color-gray-900: #131b2e;
+}
 
-  --color-primary: #0f172a;
-  --color-secondary: #1e293b;
+/* ── tema claro ── */
+[data-theme="light"] {
+  --color-primary:   #ffffff;
+  --color-secondary: #f1f5f9;
+  --color-surface:   #ffffff;
 
-  --color-blue: #60a5fa;
-  --color-green: #10b981;
-  --color-yellow: #f59e0b;
-  --color-red: #ef4444;
+  --color-gray-900: #0f172a;
+  --color-gray-700: #334155;
+  --color-gray-400: #64748b;
+  --color-gray-300: #94a3b8;
+  --color-gray-200: #cbd5e1;
+  --color-gray-100: #1e293b;
+  --color-gray-50:  #f8fafc;
 
-  --font-sans: "InterVariable", sans-serif;
-
-  --text-display: 3rem; /* 48px */
-  --text-heading: 1.875rem; /* 30px */
-  --text-body: 1rem; /* 16px */
-  --text-label: 0.625rem; /* 10px */
-  --text-caption: 0.75rem; /* 12px */
-
-  --breakpoint-xs: 320px; /* Mobile pequeno */
-  --breakpoint-sm: 480px; /* Mobile grande */
-  --breakpoint-md: 768px; /* Tablet */
-  --breakpoint-lg: 1024px; /* Laptop */
-  --breakpoint-xl: 1280px; /* Desktop */
-  --breakpoint-2xl: 1536px; /* Full HD+ */
+  --color-violet-50:  #5b21b6;
+  --color-violet-100: #6d28d9;
+  --color-violet-200: #7c3aed;
+  
+  --color-white:      #0f172a;   /* text-white vira preto */
+  --color-violet-10:  #4c1d95;   /* text-violet-10 vira roxo escuro */
+  --color-gray-200:   #334155;   /* text-gray-200 vira cinza escuro legível */
+  --color-gray-50:    #1e1b4b;   /* text-gray-50 vira quase preto */
 }
 
 @layer base {

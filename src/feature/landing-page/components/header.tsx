@@ -1,5 +1,6 @@
 import { LuGraduationCap } from "react-icons/lu";
 import { Link } from "react-router";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function Header() {
   return (
@@ -36,6 +37,7 @@ export function Header() {
         </div>
 
         <div className="flex items-center gap-4">
+          <ThemeToggle /> {/* */}
           <button className="px-6 py-2.5 rounded-3xl bg-linear-to-br from-violet-700 to-violet-50 text-violet-800 font-semibold active:scale-95 duration-200 ease-out">
             <Link to="login">Login</Link>
           </button>

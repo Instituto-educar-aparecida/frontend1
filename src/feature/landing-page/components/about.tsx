@@ -2,7 +2,7 @@ import { MdGroups, MdSchool, MdWork } from "react-icons/md";
 
 export function About() {
   return (
-    <section className="py-24 px-20 min-[375px]:px-10 max-w-full bg-gray-900">
+    <section className="py-24 px-20 min-[375px]:px-10 max-w-full bg-secondary">
       <div className=" flex flex-col items-center justify-content text-center     ">
         <h2 className="text-3xl lg:text-4xl font-bold font-headline mb-6 text-white">
           Nossa Missão

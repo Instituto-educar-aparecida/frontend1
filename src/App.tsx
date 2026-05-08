@@ -1,6 +1,6 @@
 import { BrowserRouter, RouterProvider } from "react-router";
 import { LoginPage } from "./feature/auth/pages/login-page";
-
+import { admin } from "./pages/admin";
 import { ProtectRoute } from "./routes/routes-layout";
 import { router } from "./routes";
 
