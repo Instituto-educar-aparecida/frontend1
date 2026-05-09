@@ -15,6 +15,7 @@ Você precisa apenas do **Docker** instalado:
 3. Instale as dependencias: `npm install`
 4. Suba o ambiente: `docker compose up --build`
 5. Para instalar pacotes: `docker-compose exec frontend npm install "o pacote desejado"`
+6. Crie sua PR e suba até alguém da equipe front aprovar 
 
 ## 🔄 Atualização de Dependências
 
