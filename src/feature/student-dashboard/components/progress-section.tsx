@@ -1,7 +1,12 @@
 import { MdForward } from "react-icons/md";
 import CourseCard from "./CourseCard/course-card";
+import type DashboardData from "../types/dashboard-types";
 
-export function ProgressSection({ courses }: { courses: any[] }) {
+export function ProgressSection({
+  courses,
+}: {
+  courses: DashboardData["courses"];
+}) {
   return (
     <section className="mb-10 mt-8">
       <div className="flex items-center justify-between mb-6 xs:flex-col xs:items-start">
