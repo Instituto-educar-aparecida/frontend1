@@ -15,7 +15,10 @@ export const LoginForm = () => {
 
   const methods = useForm<LoginFormData>({
     resolver: loginResolver,
-    defaultValues: loginDefaultValues,
+    defaultValues: {
+      email: "aluno2@ed.com",
+      senha: "123456789",
+    },
   });
 
   const handleSubmit = (data: LoginFormData) => {
