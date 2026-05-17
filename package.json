@@ -4,6 +4,9 @@
   "scripts": {
     "dev": "vite --port 5174 --host"
   },
+  "engines": {
+    "node": "23"
+  },
   "devDependencies": {
     "@hookform/resolvers": " 5.2.2",
     "@types/node": " 25.3.3",
