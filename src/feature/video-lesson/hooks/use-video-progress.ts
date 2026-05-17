@@ -11,7 +11,7 @@ import {
 const COMPLETED_THRESHOLD = 0.9; // 90% = concluído
 
 interface UseVideoProgressOptions {
-  lessonId: string;
+  lessonId: string | number;
   minTimeToSave?: number;
 }
 

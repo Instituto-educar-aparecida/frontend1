@@ -14,7 +14,7 @@ import { useLessonProgressQuery } from "../../hooks/use-lesson-progress-query";
 import { VolumeControl } from "./volume-slider";
 import { VideoTime } from "./video-time";
 
-function VideoControls({ lessonId }: { lessonId: string }) {
+function VideoControls({ lessonId }: { lessonId: string | number }) {
   const muted = useMediaState("muted");
   const volume = useMediaState("volume");
   const currentTime = useMediaState("currentTime");
@@ -56,7 +56,11 @@ function VideoControls({ lessonId }: { lessonId: string }) {
   );
 }
 
-export default function VideoPlayer({ lessonId }: { lessonId: string }) {
+export default function VideoPlayer({
+  lessonId,
+}: {
+  lessonId: string | number;
+}) {
   const { data: savedProgress } = useLessonProgressQuery(lessonId);
 
   return (

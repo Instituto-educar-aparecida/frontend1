@@ -13,7 +13,7 @@ export const videoProgressSchema = z.object({
 export type VideoProgressPayload = z.infer<typeof videoProgressSchema>;
 
 export const videoProgressResponseSchema = z.object({
-  lessonId: z.string(),
+  lessonId: z.string().or(z.number()),
   currentTime: z.number(),
   completed: z.boolean(),
   percentage: z.number(),
