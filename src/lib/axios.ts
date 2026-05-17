@@ -13,6 +13,7 @@ api.interceptors.request.use((config) => {
   const token = useAuthStore.getState().token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+    console.log(`Token enviado para a rota ${token}`);
   }
   return config;
 });

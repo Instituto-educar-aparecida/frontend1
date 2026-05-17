@@ -7,18 +7,19 @@ import { PrivateLayout } from "@/layouts/private-layout";
 
 // páginas públicas
 import { LoginPage } from "@/feature/auth/pages/login-page";
+import { RegisterPage } from "@/feature/auth/pages/register-page";
+import NotFoundPage from "@/pages/not-found";
 
 // páginas privadas
 import StudentDashboard from "@/feature/student-dashboard/pages";
-import NotFoundPage from "@/pages/not-found";
-import { RegisterPage } from "@/feature/auth/pages/register-page";
-
+import TeacherDashboard from "@/feature/teacher-dashboard/page";
 import { AdminLoginPage } from "@/feature/auth/pages/admin-login";
 import { Home } from "@/feature/landing-page/page";
 import CoursesPage from "@/feature/courses/pages";
 import VideoLesson from "@/feature/video-lesson/page";
 
 import { routes } from "@/types/routes-front";
+import { PrivateLayoutTeste } from "@/layouts/private-layout copy";
 //import { AulasPage } from "@/pages/aulas";
 
 export const router = createBrowserRouter([
@@ -33,6 +34,18 @@ export const router = createBrowserRouter([
           { path: routes.public.login, element: <LoginPage /> },
           { path: routes.public.register, element: <RegisterPage /> },
           { path: routes.public.adminLogin, element: <AdminLoginPage /> },
+      
+        ],
+      },
+      //Layout para teste por falta do backend nao estar funcional
+      {
+        element: <PrivateLayoutTeste />,
+        children: [
+          {
+            path: routes.teacher.dashboard,
+            element: <TeacherDashboard />,
+          },
+          { path: routes.student.courses, element: <CoursesPage /> },
         ],
       },
     ],
@@ -64,8 +77,8 @@ export const router = createBrowserRouter([
         element: <PrivateLayout roles={["professor"]} />,
         children: [
           {
-            path: routes.teacher.dashboard,
-            element: <h1>Dashboard do Professor</h1>,
+            //path: routes.teacher.dashboard,
+            element: <TeacherDashboard />,
           },
           //{ path: routes.teacher.courses, element: <CoursesPage /> },
         ],

@@ -10,7 +10,7 @@ export enum BackendRoutes {
   MOVIE = "/video/data/:videoId", // Endpoint para obter dados de um vídeo específico
   TEACHER_DASHBOARD = "/professor/dashboard", // Endpoint para acessar dados relacionados ao professor
   TEACHER_MATTERS = "/professor/materia/:materiaId", // Endpoint para acessar as matérias associadas ao professor
-  CLASSROOM = "/aula/progresso", // Endpoint para salvar o progresso da aula
-  CLASSROOM_STATUS = "/aula/progresso/concluidas", // Endpoint para obter o status das aulas concluídas
+  LESSON_PROGRESS_UPDATE = "/aula/progresso", // Endpoint para salvar o progresso da aula
+  CLASSROOM_COMPLETED = "/aula/progresso/concluidas", // Endpoint para obter o status das aulas concluídas
   CLASSROOM_PROGRESS = "/aula/progresso/:lesson_id", // Endpoint para obter o progresso de uma aula específica
 }
