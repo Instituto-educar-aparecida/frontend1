@@ -11,18 +11,26 @@ import { sideBarItems } from "./types/items-types";
 
 export function Sidebar() {
   const isOpen = useMobile();
-  const location = useLocation();
-
+  const { pathname } = useLocation();
+  const ROLE_ROUTES = [
+    { prefix: "/professor", key: "teacher" },
+    { prefix: "/student", key: "student" },
+    { prefix: "/admin", key: "admin" },
+  ] as const;
+  const currentRole = ROLE_ROUTES.find((route) =>
+    pathname.startsWith(route.prefix),
+  );
+  const itemsToRender = currentRole ? sideBarItems[0]?.[currentRole.key] : [];
   return (
     <aside
       className={`
  bg-secondary text-gray-300   border-r border-gray-200/10 flex flex-col
-      ${!isOpen ? "w-12 max-w-16" : "w-50 max-w-60"} transition-all duration-320 ease-in-out 
+      ${!isOpen ? "w-12 max-w-16" : "w-50 max-w-60"} transition-all duration-320 ease-in-out
     `}
     >
       <header
         className={`z-10 border-b border-white/10 h-17.5
-          min-w-[375px]:relative min-w-[375px]:pl-2 min-w-[375px]:pt-4 min-w-[375px]:pb-4 min-w-[375px]:pr-5 
+          min-w-[375px]:relative min-w-[375px]:pl-2 min-w-[375px]:pt-4 min-w-[375px]:pb-4 min-w-[375px]:pr-5
           ${isOpen ? " relative  pl-4 pt-4 pb-4" : "relative pl-2 pt-4 pb-4 pr-5  "}
         `}
       >
@@ -61,7 +69,7 @@ export function Sidebar() {
             </div>
           )}
           <ul className="space-y ">
-            {sideBarItems[0]?.student.map((item) => (
+            {itemsToRender?.map((item) => (
               <ItemSidebar
                 key={item.id}
                 title={item.title}
@@ -95,17 +103,17 @@ export function Sidebar() {
                   value={6}
                   max={10}
                   className="
-                 h-1.5 w-full bg-gray-200 
-    rounded-full overflow-hidden 
+                 h-1.5 w-full bg-gray-200
+    rounded-full overflow-hidden
     appearance-none border-0 shadow-none progress-smooth
-    [&::-webkit-progress-bar]:bg-gray-200 
+    [&::-webkit-progress-bar]:bg-gray-200
     [&::-webkit-progress-bar]:rounded-full
-    [&::-webkit-progress-value]:bg-linear-to-r 
-    [&::-webkit-progress-value]:from-violet-600 
+    [&::-webkit-progress-value]:bg-linear-to-r
+    [&::-webkit-progress-value]:from-violet-600
     [&::-webkit-progress-value]:to-violet-600
     [&::-webkit-progress-value]:rounded-full
     /* Firefox - COR SÓLIDA */
-    [&::-moz-progress-bar]:bg-violet-600 
+    [&::-moz-progress-bar]:bg-violet-600
     [&::-moz-progress-bar]:rounded-full
     "
                 />
