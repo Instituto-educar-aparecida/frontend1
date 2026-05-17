@@ -3,6 +3,8 @@ import App from "./App";
 import "./styles/theme.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+import TeacherDashboard from "./feature/teacher-dashboard/page";
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
