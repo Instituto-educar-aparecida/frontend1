@@ -12,8 +12,6 @@ import NotFoundPage from "@/pages/not-found";
 
 // páginas privadas
 import StudentDashboard from "@/feature/student-dashboard/pages";
-import NotFoundPage from "@/pages/not-found";
-import { RegisterPage } from "@/feature/auth/pages/register-page";
 import { AdminLoginPage } from "@/feature/auth/pages/admin-login";
 import { Home } from "@/feature/landing-page/page";
 import CoursesPage from "@/feature/courses/pages";
@@ -21,6 +19,7 @@ import VideoLesson from "@/feature/video-lesson/page";
 
 import { routes } from "@/types/routes-front";
 import { PrivateLayoutTeste } from "@/layouts/private-layout copy";
+import TeacherDashboard from "@/feature/teacher-dashboard/page";
 //import { AulasPage } from "@/pages/aulas";
 
 export const router = createBrowserRouter([
@@ -36,9 +35,15 @@ export const router = createBrowserRouter([
           { path: routes.public.register, element: <RegisterPage /> },
           { path: routes.public.adminLogin, element: <AdminLoginPage /> },
 
+          //Itens apenas mockados para teste de layout, aguardando os dados do backend para finalizar as rotas
+
           { path: routes.student.dashboard, element: <StudentDashboard /> },
           { path: routes.student.courses, element: <CoursesPage /> },
           { path: routes.student.courseDetail, element: <VideoLesson /> },
+             {
+            path: routes.teacher.dashboard,
+            element: <TeacherDashboard />,
+          }
         ],
       },
     ],

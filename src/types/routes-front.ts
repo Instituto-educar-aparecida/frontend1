@@ -6,9 +6,9 @@ export const publicRoutes = {
 } as const;
 
 export const studentRoutes = {
-  dashboard: "/student/dashboard",
-  courses: "/student/courses",
-  courseDetail: "/student/courses/:courseId",
+  dashboard: "/aluno/dashboard",
+  courses: "/aluno/courses",
+  courseDetail: "/aluno/courses/:courseId",
 } as const;
 
 export const teacherRoutes = {

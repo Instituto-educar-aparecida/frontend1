@@ -1,4 +1,4 @@
-import { Moon, Plus } from "lucide-react";
+import { LuMoon, LuPlus } from "react-icons/lu";
 
 export const HeaderTeacher = () => {
   return (
@@ -19,7 +19,7 @@ export const HeaderTeacher = () => {
       <div className="inline-flex items-center gap-4 relative flex-[0_0_auto]">
         {/* Theme Toggle */}
         <button className="inline-flex flex-col justify-center p-2 flex-[0_0_auto] rounded-xl border border-white/14 glass-card hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all duration-300 items-center cursor-pointer">
-          <Moon className="w-4 h-4 text-gray-400 hover:text-violet-400 transition-colors" />
+          <LuMoon className="w-4 h-4 text-gray-400 hover:text-violet-400 transition-colors" />
         </button>
 
         {/* CTA Button */}
@@ -28,7 +28,7 @@ export const HeaderTeacher = () => {
           <div className=" inset-0 bg-linear-to-r from-white/10 via-white/5 to-transparent rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -skew-x-12 absolute top-1 left-2 w-32 h-8 animate-shimmer" />
 
           <div className="inline-flex flex-col items-center relative z-10 shrink-0">
-            <Plus className="w-4.75 h-4.75 text-white" />
+            <LuPlus className="w-4.75 h-4.75 text-white" />
           </div>
           <span className="relative z-10 font-bold text-white text-base tracking-wide leading-none whitespace-nowrap">
             Cadastrar Nova Aula

@@ -1,7 +1,7 @@
 import { StatsCard } from "@/components/CardStats/stats-card";
 import { HeaderTeacher } from "../components/header-teacher";
 import { RecentActivitySection } from "../components/recent-activity";
-import { Play } from "lucide-react";
+import { LuPlay } from "react-icons/lu";
 import {
   MdOutlinePeople,
   MdOutlineStackedLineChart,

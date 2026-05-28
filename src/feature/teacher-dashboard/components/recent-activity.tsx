@@ -1,4 +1,4 @@
-import { Clock, Eye, Play, View } from "lucide-react";
+import { LuClock, LuEye, LuPlay, LuView } from "react-icons/lu";
 import { MdMenu } from "react-icons/md";
 import { RecentItem } from "./recent-item";
 import { Card } from "./comment/card";

@@ -1,4 +1,4 @@
-import { Clock, Eye, Play } from "lucide-react";
+import { LuClock, LuEye, LuPlay } from "react-icons/lu";
 import { CiMenuKebab } from "react-icons/ci";
 
 interface RecentItemProps {
@@ -23,7 +23,7 @@ export function RecentItem({ key, item }: RecentItemProps) {
           style={{ backgroundImage: `url(${item.thumbnail})` }}
         />
         <div className="flex w-full h-full items-center justify-center absolute top-0 left-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity duration-300">
-          <Play className="relative w-6 h-6 text-white/80" />
+          <LuPlay className="relative w-6 h-6 text-white/80" />
         </div>
       </div>
       <div className="flex flex-col items-start gap-[3.5px] relative flex-1 grow">
@@ -32,13 +32,13 @@ export function RecentItem({ key, item }: RecentItemProps) {
         </div>
         <div className="flex items-center gap-4 relative self-stretch w-full flex-[0_0_auto]">
           <div className="inline-flex items-center gap-1 relative flex-[0_0_auto]">
-            <Eye className="relative w-3 h-2 text-gray-400" />
+            <LuEye className="relative w-3 h-2 text-gray-400" />
             <span className="text-caption text-gray-400 -mt-px">
               {item.hours}
             </span>
           </div>
           <div className="inline-flex items-center gap-1 relative flex-[0_0_auto]">
-            <Clock className="relative w-3 h-3 text-gray-400" />
+            <LuClock className="relative w-3 h-3 text-gray-400" />
             <span className="text-caption text-gray-400 -mt-px">
               {item.time}
             </span>

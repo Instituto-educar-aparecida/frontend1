@@ -46,7 +46,7 @@ const StudentDashboard = () => {
     <div className=" overflow-scroll h-screen pt-2 px-8 pb-10">
       <div className="max-w-6xl mx-auto">
         {/* Hero Section */}
-        {data?.courses?.length === 0 && <HeroSection />}
+        {data?.courses?.length === 0 ?  <HeroSection /> : <h1 className="text-white text-center text-3xl">Aguardando dados que possam ser exibidos vindos do backend</h1>}
         {!data?.courseStatus && (
           <h1 className="text-white text-center text-3xl"> {data?.msg} </h1>
         )}
