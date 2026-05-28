@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/use-auth-store";
-import { Search, User } from "lucide-react";
+import { LuSearch, LuUser } from "react-icons/lu"
 import { useState } from "react";
 import { BiNotification } from "react-icons/bi";
 import { IoMdNotifications } from "react-icons/io";
@@ -19,7 +19,7 @@ const Navbar = () => {
       {/* Search Bar */}
       <div className="relative flex-1 max-w-45 min-[375px]:max-w-md">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl pointer-events-none">
-          <Search size={20} className="text-gray-400" />
+          <LuSearch size={20} className="text-gray-400" />
         </span>
         <input
           className="w-full bg-white/5 border border-white/10 rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-violet-600 focus:border-violet-600 outline-none text-gray-200 transition-all"
@@ -55,7 +55,7 @@ const Navbar = () => {
           </div>
           <div className="w-8 h-8 xs:w-10 xs:h-10 rounded-full bg-linear-to-br from-violet-500 to-violet-600 border-2 border-violet-500/30 flex items-center justify-center overflow-hidden shadow-lg hover:scale-105 transition-transform">
             <span className="material-symbols-outlined text-white text-lg">
-              <User />
+              <LuUser />
             </span>
           </div>
         </div>

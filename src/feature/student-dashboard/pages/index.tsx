@@ -1,4 +1,4 @@
-import { Clock1 } from "lucide-react";
+import { LuClock1 } from "react-icons/lu";
 import { StatsCard } from "../../../components/CardStats/stats-card";
 import { HeroSection } from "../components/hero-section";
 import { ProgressSection } from "../components/progress-section";

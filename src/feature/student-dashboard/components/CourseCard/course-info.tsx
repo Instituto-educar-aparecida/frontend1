@@ -1,5 +1,5 @@
-import { Timer } from "lucide-react";
-import { MdMenuBook } from "react-icons/md";
+import {  LuTimer } from "react-icons/lu";
+import { MdMenuBook,  } from "react-icons/md";
 
 interface CourseInfoProps {
   title: string;
@@ -22,7 +22,7 @@ export function CourseInfo({ title, modules, duration }: CourseInfoProps) {
         </span>
         <span className="flex items-center gap-1">
           <span className="material-symbols-outlined text-sm">
-            <Timer />
+            <LuTimer/>
           </span>
           {duration} totais
         </span>
