@@ -12,12 +12,8 @@ import NotFoundPage from "@/pages/not-found";
 
 // páginas privadas
 import StudentDashboard from "@/feature/student-dashboard/pages";
-<<<<<<< HEAD
 import NotFoundPage from "@/pages/not-found";
 import { RegisterPage } from "@/feature/auth/pages/register-page";
-=======
-import TeacherDashboard from "@/feature/teacher-dashboard/page";
->>>>>>> feature/jhonathan
 import { AdminLoginPage } from "@/feature/auth/pages/admin-login";
 import { Home } from "@/feature/landing-page/page";
 import CoursesPage from "@/feature/courses/pages";
