@@ -20,9 +20,10 @@ interface Course {
 }
 
 const StudentDashboard = () => {
-  const dashboardData = useStudentDashboard();
-  //console.log(dashboardData);
-  const courses: Course[] = [
+  const { data } = useStudentDashboard();
+  console.log(data);
+
+  /*const courses: Course[] = [
     {
       id: 1,
       title: "Fundamentos do Design Moderno",
@@ -39,47 +40,53 @@ const StudentDashboard = () => {
       duration: "42h",
       progress: 30,
     },
-  ];
+  ];*/
 
   return (
     <div className=" overflow-scroll h-screen pt-2 px-8 pb-10">
       <div className="max-w-6xl mx-auto">
         {/* Hero Section */}
-        <HeroSection />
+        {data?.courses?.length === 0 && <HeroSection />}
+        {!data?.courseStatus && (
+          <h1 className="text-white text-center text-3xl"> {data?.msg} </h1>
+        )}
 
         {/* Stats */}
-        <div className="flex flex-col md:flex-row xs:gap-3 gap-3 justify-between">
-          <StatsCard
-            icon={IoBookOutline}
-            status="Em andamento"
-            className="text-green bg-green/10"
-            title="2"
-            description="Cursos ativos"
-          />
-          <StatsCard
-            icon={FaRankingStar}
-            status="10%"
-            className="text-yellow bg-yellow/10"
-            title="10"
-            description="Cursos concluídos"
-          />
-          <StatsCard
-            icon={LiaHourglass}
-            className="text-violet-300 bg-violet-500/20"
-            status="+10%"
-            title="120h"
-            description="Horas de aprendizado"
-          />
-        </div>
+        {data?.courseStatus && (
+          <div className="flex flex-col md:flex-row xs:gap-3 gap-3 justify-between">
+            <StatsCard
+              icon={IoBookOutline}
+              status="Em andamento"
+              className="text-green bg-green/10"
+              title="2"
+              description="Cursos ativos"
+            />
+            <StatsCard
+              icon={FaRankingStar}
+              status="10%"
+              className="text-yellow bg-yellow/10"
+              title="10"
+              description="Cursos concluídos"
+            />
+            <StatsCard
+              icon={LiaHourglass}
+              className="text-violet-300 bg-violet-500/20"
+              status="+10%"
+              title="120h"
+              description="Horas de aprendizado"
+            />
+          </div>
+        )}
 
         {/* Progress Section */}
-        <ProgressSection courses={courses} />
-
+        {data?.courses && <ProgressSection courses={data.courses} />}
         {/* Activities & Certificate */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-          <Activities />
-          <CertificateCard />
-        </div>
+        {data?.courses && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+            <Activities />
+            <CertificateCard />
+          </div>
+        )}
       </div>
 
       {/* FAB */}

@@ -6,6 +6,7 @@ import LessonDescription from "../components/lesson-description";
 import ModuleContent from "../components/module-content";
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 import VideoPlayer from "../components/video-lesson/video-controls";
+import { videoProgressService } from "../services/video-services-lesson";
 
 const VideoLesson = () => {
   return (
@@ -14,7 +15,7 @@ const VideoLesson = () => {
 
       <main className="max-w-7xl mx-auto p-4 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-8 space-y-8">
-          <VideoPlayer lessonId={""} />
+          <VideoPlayer lessonId={1} />
           <LessonHeader />
           <LessonTabs />
           <LessonDescription />

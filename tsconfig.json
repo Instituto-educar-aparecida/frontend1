@@ -3,13 +3,12 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-
     "module": "esnext",
     "moduleResolution": "bundler",
     "target": "es2020",
     "lib": ["DOM", "DOM.Iterable", "ES2017"],
     "types": [],
-
+    "engine": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,

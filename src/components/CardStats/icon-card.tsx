@@ -22,14 +22,9 @@ export default function IconCard({
         )}
         {...props}
       >
-        <Icon />
+        <Icon size={19} />
       </div>
-      <span
-        className={cn(
-          "py-1 px-2 text-label md:text-label font-bold rounded-sm",
-          className,
-        )}
-      >
+      <span className={cn("py-1 px-2 text-xs font-bol rounded-sm", className)}>
         {status}
       </span>
     </div>
