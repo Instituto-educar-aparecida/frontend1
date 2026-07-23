@@ -1,7 +1,4 @@
-import { BrowserRouter, RouterProvider } from "react-router";
-import { LoginPage } from "./feature/auth/pages/login-page";
-import { admin } from "./pages/admin";
-import { ProtectRoute } from "./routes/routes-layout";
+import { RouterProvider } from "react-router";
 import { router } from "./routes";
 
 export default function App() {

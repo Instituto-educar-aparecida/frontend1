@@ -7,18 +7,22 @@ import { PrivateLayout } from "@/layouts/private-layout";
 
 // páginas públicas
 import { LoginPage } from "@/feature/auth/pages/login-page";
-
-// páginas privadas
-import StudentDashboard from "@/feature/student-dashboard/pages";
-import NotFoundPage from "@/pages/not-found";
 import { RegisterPage } from "@/feature/auth/pages/register-page";
 import { AdminLoginPage } from "@/feature/auth/pages/admin-login";
 import { Home } from "@/feature/landing-page/page";
+
+// páginas privadas — aluno
+import StudentDashboard from "@/feature/student-dashboard/pages";
 import CoursesPage from "@/feature/courses/pages";
 import VideoLesson from "@/feature/video-lesson/page";
 
+// páginas privadas — admin
+import AdminDashboard from "@/feature/admin/dashboard/pages";
+
+// 404
+import NotFoundPage from "@/pages/not-found";
+
 import { routes } from "@/types/routes-front";
-//import { AulasPage } from "@/pages/aulas";
 
 export const router = createBrowserRouter([
   // ─── rotas públicas ────────────────────────────────
@@ -32,10 +36,6 @@ export const router = createBrowserRouter([
           { path: routes.public.login, element: <LoginPage /> },
           { path: routes.public.register, element: <RegisterPage /> },
           { path: routes.public.adminLogin, element: <AdminLoginPage /> },
-
-          { path: routes.student.dashboard, element: <StudentDashboard /> },
-          { path: routes.student.courses, element: <CoursesPage /> },
-          { path: routes.student.courseDetail, element: <VideoLesson /> },
         ],
       },
     ],
@@ -43,10 +43,10 @@ export const router = createBrowserRouter([
 
   // ─── rotas privadas ────────────────────────────────
   {
-    element: <ProtectRoute />, // bloqueia se não logado
+    element: <ProtectRoute />,
     children: [
       {
-        element: <PrivateLayout roles={["aluno"]} />,
+        element: <PrivateLayout roles={["STUDENT"]} />,
         children: [
           { path: routes.student.dashboard, element: <StudentDashboard /> },
           { path: routes.student.courses, element: <CoursesPage /> },
@@ -54,29 +54,22 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <PrivateLayout roles={["admin"]} />,
+        element: <PrivateLayout roles={["ADMIN"]} />,
         children: [
-          {
-            path: routes.admin.dashboard,
-            element: <h1>Dashboard do Admin</h1>,
-          },
-          //{ path: routes.admin.courses, element: <CoursesPage /> },
+          { path: routes.admin.dashboard, element: <AdminDashboard /> },
         ],
       },
       {
-        element: <PrivateLayout roles={["professor"]} />,
+        element: <PrivateLayout roles={["INSTRUCTOR"]} />,
         children: [
           {
             path: routes.teacher.dashboard,
             element: <h1>Dashboard do Professor</h1>,
           },
-          //{ path: routes.teacher.courses, element: <CoursesPage /> },
         ],
       },
     ],
   },
-  {
-    path: "*",
-    element: <NotFoundPage />,
-  },
+
+  { path: "*", element: <NotFoundPage /> },
 ]);

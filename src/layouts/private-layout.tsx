@@ -1,26 +1,24 @@
-import { Navigate, Outlet, useLocation, useNavigation } from "react-router";
+import { Navigate, Outlet, useLocation } from "react-router";
 import { Sidebar } from "../components/sidebar/sidebar";
 import { useAuthStore } from "@/store/use-auth-store";
 import Navbar from "@/components/navbar";
 
-export function PrivateLayout({
-  roles,
-}: {
-  roles: ("admin" | "aluno" | "professor")[];
-}) {
+type Role = "ADMIN" | "STUDENT" | "INSTRUCTOR" | "SECRETARIA";
+
+export function PrivateLayout({ roles }: { roles: Role[] }) {
   const { user } = useAuthStore();
 
-  if (!user || !roles.includes(user.role)) {
+  if (!user || !roles.includes(user.role as Role)) {
     return <Navigate to="/login" replace />;
   }
+
   const { pathname } = useLocation();
+
   return (
-    <main className="bg-primary grid grid-cols-[auto_1fr] h-screen  ">
-      <Sidebar />
-
+    <main className="bg-primary grid grid-cols-[auto_1fr] h-screen">
+      <Sidebar role={user.role as Role} />
       <div className="overflow-hidden">
-        {pathname.startsWith("/student/courses/") ? <></> : <Navbar />}
-
+        {pathname.startsWith("/student/courses/") ? null : <Navbar />}
         <Outlet />
       </div>
     </main>

@@ -50,7 +50,7 @@ const Navbar = () => {
               {user?.name || "Usuário"}
             </p>
             <p className="text-label font-medium text-gray-300 uppercase tracking-wider">
-              Colégio X
+              {user?.role || "ADMIN"}
             </p>
           </div>
           <div className="w-8 h-8 xs:w-10 xs:h-10 rounded-full bg-linear-to-br from-violet-500 to-violet-600 border-2 border-violet-500/30 flex items-center justify-center overflow-hidden shadow-lg hover:scale-105 transition-transform">
