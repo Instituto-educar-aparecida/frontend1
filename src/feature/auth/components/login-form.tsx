@@ -17,7 +17,7 @@ export const LoginForm = () => {
     resolver: loginResolver,
     defaultValues: {
       email: "aluno2@ed.com",
-      senha: "123456789",
+      password: "",
     },
   });
 
@@ -41,7 +41,7 @@ export const LoginForm = () => {
         />
 
         <Input
-          name="senha"
+          name="password"
           label="Senha"
           type="password"
           placeholder="••••••••"

@@ -1,29 +1,25 @@
 import { createBrowserRouter } from "react-router";
 import { ProtectRoute, PublicOnlyRoute } from "@/routes/routes-layout";
 
-// layouts
 import { PublicLayout } from "@/layouts/public-layout";
 import { PrivateLayout } from "@/layouts/private-layout";
 
-// páginas públicas
 import { LoginPage } from "@/feature/auth/pages/login-page";
 import { RegisterPage } from "@/feature/auth/pages/register-page";
-import NotFoundPage from "@/pages/not-found";
-
-// páginas privadas
-import StudentDashboard from "@/feature/student-dashboard/pages";
 import { AdminLoginPage } from "@/feature/auth/pages/admin-login";
 import { Home } from "@/feature/landing-page/page";
+import NotFoundPage from "@/pages/not-found";
+
+import StudentDashboard from "@/feature/student-dashboard/pages";
 import CoursesPage from "@/feature/courses/pages";
 import VideoLesson from "@/feature/video-lesson/page";
+import TeacherDashboard from "@/feature/teacher-dashboard/page";
+import AdminDashboard from "@/feature/admin/dashboard/pages";
+import AdminUsersPage from "@/feature/admin/users/pages";
 
 import { routes } from "@/types/routes-front";
-import { PrivateLayoutTeste } from "@/layouts/private-layout copy";
-import TeacherDashboard from "@/feature/teacher-dashboard/page";
-//import { AulasPage } from "@/pages/aulas";
 
 export const router = createBrowserRouter([
-  // ─── rotas públicas ────────────────────────────────
   {
     element: <PublicOnlyRoute />,
     children: [
@@ -34,27 +30,15 @@ export const router = createBrowserRouter([
           { path: routes.public.login, element: <LoginPage /> },
           { path: routes.public.register, element: <RegisterPage /> },
           { path: routes.public.adminLogin, element: <AdminLoginPage /> },
-
-          //Itens apenas mockados para teste de layout, aguardando os dados do backend para finalizar as rotas
-
-          { path: routes.student.dashboard, element: <StudentDashboard /> },
-          { path: routes.student.courses, element: <CoursesPage /> },
-          { path: routes.student.courseDetail, element: <VideoLesson /> },
-             {
-            path: routes.teacher.dashboard,
-            element: <TeacherDashboard />,
-          }
         ],
       },
     ],
   },
-
-  // ─── rotas privadas ────────────────────────────────
   {
-    element: <ProtectRoute />, // bloqueia se não logado
+    element: <ProtectRoute />,
     children: [
       {
-        element: <PrivateLayout roles={["aluno"]} />,
+        element: <PrivateLayout roles={["STUDENT"]} />,
         children: [
           { path: routes.student.dashboard, element: <StudentDashboard /> },
           { path: routes.student.courses, element: <CoursesPage /> },
@@ -62,29 +46,19 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        element: <PrivateLayout roles={["admin"]} />,
+        element: <PrivateLayout roles={["ADMIN"]} />,
         children: [
-          {
-            path: routes.admin.dashboard,
-            element: <h1>Dashboard do Admin</h1>,
-          },
-          //{ path: routes.admin.courses, element: <CoursesPage /> },
+          { path: routes.admin.dashboard, element: <AdminDashboard /> },
+          { path: routes.admin.users, element: <AdminUsersPage /> },
         ],
       },
       {
-        element: <PrivateLayout roles={["professor"]} />,
+        element: <PrivateLayout roles={["INSTRUCTOR"]} />,
         children: [
-          {
-            //path: routes.teacher.dashboard,
-            element: <TeacherDashboard />,
-          },
-          //{ path: routes.teacher.courses, element: <CoursesPage /> },
+          { path: routes.teacher.dashboard, element: <TeacherDashboard /> },
         ],
       },
     ],
   },
-  {
-    path: "*",
-    element: <NotFoundPage />,
-  },
+  { path: "*", element: <NotFoundPage /> },
 ]);

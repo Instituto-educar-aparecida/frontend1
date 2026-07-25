@@ -3,7 +3,8 @@ import App from "./App";
 import "./styles/theme.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import TeacherDashboard from "./feature/teacher-dashboard/page";
+const saved = (localStorage.getItem("theme") ?? "dark") as "dark" | "light";
+document.documentElement.setAttribute("data-theme", saved);
 
 const queryClient = new QueryClient({
   defaultOptions: {
