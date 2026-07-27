@@ -13,11 +13,13 @@ export const studentRoutes = {
 
 export const teacherRoutes = {
   dashboard: "/professor/dashboard",
+  lessons: "/professor/lessons",
 } as const;
 
 export const adminRoutes = {
   dashboard: "/admin/dashboard",
   users: "/admin/users",
+  courses: "/admin/courses",
 } as const;
 
 export const routes = {

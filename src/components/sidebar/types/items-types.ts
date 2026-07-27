@@ -53,7 +53,7 @@ export const sideBarItems = [
       {
         id: 2,
         title: "Minhas aulas",
-        to: "#",
+        to: routes.teacher.lessons,
         icon: FaRegPlayCircle,
       },
       {
@@ -91,7 +91,7 @@ export const sideBarItems = [
       {
         id: 3,
         title: "Cursos e Conteúdos",
-        to: "#",
+        to: routes.admin.courses,
         icon: MdBookOnline,
       },
       {

@@ -14,8 +14,10 @@ import StudentDashboard from "@/feature/student-dashboard/pages";
 import CoursesPage from "@/feature/courses/pages";
 import VideoLesson from "@/feature/video-lesson/page";
 import TeacherDashboard from "@/feature/teacher-dashboard/page";
+import ManageLessonsPage from "@/feature/teacher-dashboard/pages/manage-lessons";
 import AdminDashboard from "@/feature/admin/dashboard/pages";
 import AdminUsersPage from "@/feature/admin/users/pages";
+import AdminCoursesPage from "@/feature/admin/courses/pages";
 
 import { routes } from "@/types/routes-front";
 
@@ -50,12 +52,14 @@ export const router = createBrowserRouter([
         children: [
           { path: routes.admin.dashboard, element: <AdminDashboard /> },
           { path: routes.admin.users, element: <AdminUsersPage /> },
+          { path: routes.admin.courses, element: <AdminCoursesPage /> },
         ],
       },
       {
         element: <PrivateLayout roles={["INSTRUCTOR"]} />,
         children: [
           { path: routes.teacher.dashboard, element: <TeacherDashboard /> },
+          { path: routes.teacher.lessons, element: <ManageLessonsPage /> },
         ],
       },
     ],

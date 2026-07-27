@@ -1,42 +1,9 @@
-import {
-  MdPeople,
-  MdPlayCircle,
-  MdAccessTime,
-  MdMoreVert,
-} from "react-icons/md";
+import { MdPeople, MdPlayCircle, MdAccessTime, MdMoreVert, MdSchool, MdBook } from "react-icons/md";
+import { useAdminDashboard } from "../hooks/use-admin-dashboard";
+import { useAdminUsers } from "@/feature/admin/users/hooks/use-admin-users";
 
-const stats = [
-  {
-    icon: MdPeople,
-    label: "Total de Usuários",
-    value: "12.482",
-    sub: "Alunos & Profs",
-    trend: "+12%",
-    color: "text-blue bg-blue/10",
-  },
-  {
-    icon: MdPlayCircle,
-    label: "Aulas Ativas",
-    value: "342",
-    sub: "Nas últimas 24h",
-    trend: "+8%",
-    color: "text-green bg-green/10",
-  },
-  {
-    icon: MdAccessTime,
-    label: "Total de Horas",
-    value: "180hrs",
-    sub: "No último mês",
-    trend: "+24%",
-    color: "text-yellow bg-yellow/10",
-  },
-];
-
-const recentUsers = [
-  { initials: "AF", name: "Ana Ferreira", email: "ana.f@email.com", role: "PROFESSOR", status: "Ativo", date: "Hoje, 14:20" },
-  { initials: "RS", name: "Ricardo Silva", email: "ricardo.s@email.com", role: "ALUNO", status: "Ativo", date: "Hoje, 10:45" },
-  { initials: "MM", name: "Mariana Mendes", email: "mari.m@email.com", role: "ALUNO", status: "Pendente", date: "Ontem, 18:30" },
-];
+const weekDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
+const weekValues = [40, 65, 35, 80, 55, 70, 30];
 
 const distribution = [
   { label: "Alunos Premium", value: 65, color: "bg-violet-600" },
@@ -44,10 +11,39 @@ const distribution = [
   { label: "Professores", value: 10, color: "bg-green" },
 ];
 
-const weekDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
-const weekValues = [40, 65, 35, 80, 55, 70, 30];
-
 export default function AdminDashboard() {
+  const { data: dashboard, isLoading } = useAdminDashboard();
+  const { data: users = [] } = useAdminUsers();
+
+  const recentUsers = users.slice(0, 3);
+
+  const stats = [
+    {
+      icon: MdPeople,
+      label: "Total de Usuários",
+      value: isLoading ? "..." : dashboard?.overview.total_users || "0",
+      sub: "Alunos & Profs",
+      trend: "+12%",
+      color: "text-blue bg-blue/10",
+    },
+    {
+      icon: MdPlayCircle,
+      label: "Aulas Ativas",
+      value: isLoading ? "..." : dashboard?.overview.approved_courses || "0",
+      sub: "Cursos aprovados",
+      trend: "+8%",
+      color: "text-green bg-green/10",
+    },
+    {
+      icon: MdBook,
+      label: "Cursos Pendentes",
+      value: isLoading ? "..." : dashboard?.overview.pending_courses || "0",
+      sub: "Aguardando aprovação",
+      trend: "",
+      color: "text-yellow bg-yellow/10",
+    },
+  ];
+
   return (
     <div className="overflow-y-auto h-[calc(100vh-70px)] px-8 py-6 bg-primary">
       <div className="max-w-7xl mx-auto">
@@ -59,7 +55,10 @@ export default function AdminDashboard() {
               Bem-vindo ao centro de controle do Instituto Educar.
             </p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 transition-all">
+          <button
+            onClick={() => window.location.href="/admin/users"}
+            className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 transition-all"
+          >
             <MdPeople size={18} />
             + Novo Usuário
           </button>
@@ -72,7 +71,7 @@ export default function AdminDashboard() {
                 <span className={`p-2 rounded-xl ${s.color}`}>
                   <s.icon size={20} />
                 </span>
-                <span className="text-xs text-green font-semibold">{s.trend}</span>
+                {s.trend && <span className="text-xs text-green font-semibold">{s.trend}</span>}
               </div>
               <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">{s.label}</p>
               <p className="text-2xl font-bold text-gray-100">{s.value}</p>
@@ -99,10 +98,7 @@ export default function AdminDashboard() {
             <div className="flex items-end gap-2 h-32 mt-4">
               {weekValues.map((v, i) => (
                 <div key={i} className="flex-1 flex flex-col items-center gap-1">
-                  <div
-                    className="w-full rounded-t-md bg-violet-600/60 hover:bg-violet-600 transition-all"
-                    style={{ height: `${v}%` }}
-                  />
+                  <div className="w-full rounded-t-md bg-violet-600/60 hover:bg-violet-600 transition-all" style={{ height: `${v}%` }} />
                   <span className="text-xs text-gray-500">{weekDays[i]}</span>
                 </div>
               ))}
@@ -143,51 +139,57 @@ export default function AdminDashboard() {
             />
           </div>
 
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-xs text-gray-500 uppercase border-b border-white/5">
-                <th className="text-left pb-3 font-medium">Usuário</th>
-                <th className="text-left pb-3 font-medium">Função</th>
-                <th className="text-left pb-3 font-medium">Status</th>
-                <th className="text-left pb-3 font-medium">Cadastro</th>
-                <th className="text-left pb-3 font-medium">Ações</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/5">
-              {recentUsers.map((u) => (
-                <tr key={u.email} className="hover:bg-white/5 transition-all">
-                  <td className="py-3">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-violet-600/30 flex items-center justify-center text-xs font-bold text-violet-300">
-                        {u.initials}
-                      </div>
-                      <div>
-                        <p className="text-gray-200 font-medium text-xs">{u.name}</p>
-                        <p className="text-gray-500 text-xs">{u.email}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="py-3 text-xs text-gray-400">{u.role}</td>
-                  <td className="py-3">
-                    <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                      u.status === "Ativo" ? "bg-green/10 text-green" : "bg-yellow/10 text-yellow"
-                    }`}>
-                      {u.status}
-                    </span>
-                  </td>
-                  <td className="py-3 text-xs text-gray-400">{u.date}</td>
-                  <td className="py-3">
-                    <button className="text-gray-500 hover:text-gray-300 transition-all">
-                      <MdMoreVert size={18} />
-                    </button>
-                  </td>
+          {isLoading ? (
+            <p className="text-center text-gray-400 py-4 text-sm">Carregando...</p>
+          ) : (
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-xs text-gray-500 uppercase border-b border-white/5">
+                  <th className="text-left pb-3 font-medium">Usuário</th>
+                  <th className="text-left pb-3 font-medium">Função</th>
+                  <th className="text-left pb-3 font-medium">Status</th>
+                  <th className="text-left pb-3 font-medium">Cadastro</th>
+                  <th className="text-left pb-3 font-medium">Ações</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {recentUsers.map((u) => (
+                  <tr key={u.id} className="hover:bg-white/5 transition-all">
+                    <td className="py-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-violet-600/30 flex items-center justify-center text-xs font-bold text-violet-300">
+                          {u.name.slice(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="text-gray-200 font-medium text-xs">{u.name}</p>
+                          <p className="text-gray-500 text-xs">{u.email}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-3 text-xs text-gray-400">{u.role}</td>
+                    <td className="py-3">
+                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${u.active ? "bg-green/10 text-green" : "bg-red/10 text-red"}`}>
+                        {u.active ? "Ativo" : "Inativo"}
+                      </span>
+                    </td>
+                    <td className="py-3 text-xs text-gray-400">
+                      {new Date(u.created_at).toLocaleDateString("pt-BR")}
+                    </td>
+                    <td className="py-3">
+                      <button className="text-gray-500 hover:text-gray-300 transition-all">
+                        <MdMoreVert size={18} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
 
           <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
-            <span className="text-xs text-gray-500">Exibindo 3 de 12.482 registros</span>
+            <span className="text-xs text-gray-500">
+              Exibindo {recentUsers.length} de {users.length} registros
+            </span>
             <div className="flex gap-2">
               <button className="text-xs px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-violet-600/20 transition-all">←</button>
               <button className="text-xs px-3 py-1 rounded-lg bg-violet-600 text-white">1</button>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { MdSearch, MdMoreVert, MdPersonOff, MdPerson, MdDelete } from "react-icons/md";
+import { NewUserModal } from "../components/new-user-modal";
 import { useAdminUsers, useBlockUser, useDeleteUser } from "../hooks/use-admin-users";
 
 const roleLabel: Record<string, string> = {
@@ -23,6 +24,7 @@ export default function AdminUsersPage() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("TODOS");
   const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const filtered = users.filter((u) => {
     const matchSearch =
@@ -44,7 +46,7 @@ export default function AdminUsersPage() {
               Gerencie alunos, professores e administradores.
             </p>
           </div>
-          <button className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 transition-all">
+          <button onClick={() => setShowModal(true)} className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 transition-all">
             + Novo Usuário
           </button>
         </div>
@@ -152,7 +154,7 @@ export default function AdminUsersPage() {
                             {u.active ? "Bloquear" : "Desbloquear"}
                           </button>
                           <button
-                            onClick={() => { deleteUser.mutate(u.id); setOpenMenu(null); }}
+                            onClick={() => { if(window.confirm("Tem certeza que deseja excluir este usuário?")) { deleteUser.mutate(u.id); setOpenMenu(null); } }}
                             className="flex items-center gap-2 w-full px-4 py-2 text-xs text-red hover:bg-red/10 transition-all"
                           >
                             <MdDelete size={16} />
@@ -174,6 +176,7 @@ export default function AdminUsersPage() {
           </div>
         </div>
       </div>
+      {showModal && <NewUserModal onClose={() => setShowModal(false)} />}
     </div>
   );
 }

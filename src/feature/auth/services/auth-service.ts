@@ -10,6 +10,11 @@ export const authService = {
   login: async (data: LoginFormData) => {
     try {
       const response = await api.post(BackendRoutes.LOGIN, data);
+
+      if (response.data.status === "error") {
+        throw new Error(response.data.message || "Email ou senha incorretos.");
+      }
+
       const parsed = loginResponseSchema.parse(response.data);
       const { token, user } = parsed.data;
 
@@ -21,18 +26,14 @@ export const authService = {
 
       return user;
     } catch (error: any) {
-      console.error("Erro no login authService:", error);
-      const status = error.response?.status;
       const message =
         error.response?.data?.message ||
-        error.response?.data?.error ||
-        "Erro de autenticação";
-      if (status === 401) {
-        throw new Error("Muitas tentativas. Aguarde um pouco e tente novamente.");
-      }
+        error.message ||
+        "Email ou senha incorretos.";
       throw new Error(message);
     }
   },
+
   logout: () => {
     useAuthStore.getState().logout();
   },
