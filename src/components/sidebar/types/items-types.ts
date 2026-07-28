@@ -25,7 +25,13 @@ export const sideBarItems = [
       {
         id: 3,
         title: "Certificado",
-        to: "#",
+        to: "/student/certificates",
+        icon: RiMedalLine,
+      },
+      {
+        id: 4,
+        title: "Matrícula",
+        to: routes.student.enrollment,
         icon: RiMedalLine,
       },
     ],
@@ -58,9 +64,9 @@ export const sideBarItems = [
       },
       {
         id: 3,
-        title: "Meus alunos",
-        to: "#",
-        icon: IoIosPeople,
+        title: "Módulos",
+        to: "/professor/modules",
+        icon: MdBookOnline,
       },
       {
         id: 4,

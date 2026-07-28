@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { studentService } from "../services/student-service";
-import type DashboardData from "../types/dashboard-types";
+import { studentService, type StudentDashboardData } from "../services/student-service";
 
 export function useStudentDashboard() {
-  return useQuery<DashboardData>({
-    queryKey: ["studentDashboardData"],
+  return useQuery<StudentDashboardData>({
+    queryKey: ["student-dashboard"],
     queryFn: studentService.getDashboardData,
   });
 }

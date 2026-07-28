@@ -1,95 +1,138 @@
-import { LuClock1 } from "react-icons/lu";
-import { StatsCard } from "../../../components/CardStats/stats-card";
-import { HeroSection } from "../components/hero-section";
-import { ProgressSection } from "../components/progress-section";
-import { FabButton } from "../components/fa-button";
-import Activities from "../components/activities";
-import CertificateCard from "../components/certificate-card";
 import { IoBookOutline } from "react-icons/io5";
 import { FaRankingStar } from "react-icons/fa6";
 import { LiaHourglass } from "react-icons/lia";
+import { MdPlayCircle, MdStar } from "react-icons/md";
 import { useStudentDashboard } from "../hooks/use-student-dashboard";
-
-interface Course {
-  id: number | string;
-  title: string;
-  category: string;
-  modules: number;
-  duration: string;
-  progress: number;
-}
+import { useAuthStore } from "@/store/use-auth-store";
+import { FabButton } from "../components/fa-button";
 
 const StudentDashboard = () => {
-  const { data } = useStudentDashboard();
-  console.log(data);
-
-  /*const courses: Course[] = [
-    {
-      id: 1,
-      title: "Fundamentos do Design Moderno",
-      category: "UX/UI Design",
-      modules: 12,
-      duration: "24h",
-      progress: 75,
-    },
-    {
-      id: 2,
-      title: "Mastering React & Tailwind",
-      category: "Desenvolvimento",
-      modules: 18,
-      duration: "42h",
-      progress: 30,
-    },
-  ];*/
+  const { data, isLoading } = useStudentDashboard();
+  const { user } = useAuthStore();
 
   return (
-    <div className=" overflow-scroll h-screen pt-2 px-8 pb-10">
+    <div className="overflow-y-auto h-[calc(100vh-70px)] px-8 py-6 bg-primary">
       <div className="max-w-6xl mx-auto">
-        {/* Hero Section */}
-        {data?.courses?.length === 0 ?  <HeroSection /> : <h1 className="text-white text-center text-3xl">Aguardando dados que possam ser exibidos vindos do backend</h1>}
-        {!data?.courseStatus && (
-          <h1 className="text-white text-center text-3xl"> {data?.msg} </h1>
-        )}
+
+        {/* Hero */}
+        <div className="mb-8">
+          <h1 className="text-2xl font-bold text-gray-100">
+            Olá, {user?.name || "Aluno"}! 👋
+          </h1>
+          <p className="text-sm text-gray-400 mt-1">
+            Continue seu aprendizado de onde você parou.
+          </p>
+        </div>
 
         {/* Stats */}
-        {data?.courseStatus && (
-          <div className="flex flex-col md:flex-row xs:gap-3 gap-3 justify-between">
-            <StatsCard
-              icon={IoBookOutline}
-              status="Em andamento"
-              className="text-green bg-green/10"
-              title="2"
-              description="Cursos ativos"
-            />
-            <StatsCard
-              icon={FaRankingStar}
-              status="10%"
-              className="text-yellow bg-yellow/10"
-              title="10"
-              description="Cursos concluídos"
-            />
-            <StatsCard
-              icon={LiaHourglass}
-              className="text-violet-300 bg-violet-500/20"
-              status="+10%"
-              title="120h"
-              description="Horas de aprendizado"
-            />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <div className="bg-secondary rounded-2xl p-5 border border-white/5">
+            <div className="flex items-center justify-between mb-3">
+              <span className="p-2 rounded-xl text-green bg-green/10">
+                <IoBookOutline size={20} />
+              </span>
+              <span className="text-xs text-gray-400">Em andamento</span>
+            </div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Cursos Ativos</p>
+            <p className="text-2xl font-bold text-gray-100">
+              {isLoading ? "..." : data?.resumo.cursos_ativos ?? 0}
+            </p>
+          </div>
+
+          <div className="bg-secondary rounded-2xl p-5 border border-white/5">
+            <div className="flex items-center justify-between mb-3">
+              <span className="p-2 rounded-xl text-yellow bg-yellow/10">
+                <FaRankingStar size={20} />
+              </span>
+              <span className="text-xs text-gray-400">Total</span>
+            </div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Cursos Concluídos</p>
+            <p className="text-2xl font-bold text-gray-100">
+              {isLoading ? "..." : data?.resumo.cursos_concluidos ?? 0}
+            </p>
+          </div>
+
+          <div className="bg-secondary rounded-2xl p-5 border border-white/5">
+            <div className="flex items-center justify-between mb-3">
+              <span className="p-2 rounded-xl text-violet-300 bg-violet-500/20">
+                <LiaHourglass size={20} />
+              </span>
+              <span className="text-xs text-gray-400">Este mês</span>
+            </div>
+            <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Horas de Estudo</p>
+            <p className="text-2xl font-bold text-gray-100">
+              {isLoading ? "..." : `${data?.resumo.horas_totais ?? 0}h`}
+            </p>
+          </div>
+        </div>
+
+        {/* Cursos em progresso */}
+        <div className="bg-secondary rounded-2xl p-5 border border-white/5 mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-sm font-semibold text-gray-100">Seu Progresso</p>
+            <button className="text-xs text-violet-400 hover:text-violet-300 transition-all">
+              Ver todos os cursos
+            </button>
+          </div>
+
+          {isLoading ? (
+            <p className="text-center text-gray-400 py-8 text-sm">Carregando...</p>
+          ) : data?.cursos_ativos.length === 0 ? (
+            <div className="text-center py-8">
+              <MdPlayCircle size={36} className="text-gray-600 mx-auto mb-2" />
+              <p className="text-sm text-gray-400">Nenhum curso em andamento.</p>
+              <button className="mt-3 text-xs text-violet-400 hover:text-violet-300 transition-all">
+                Explorar cursos →
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {data?.cursos_ativos.map((course) => (
+                <div key={course.id} className="bg-primary rounded-xl p-4 border border-white/5">
+                  <div className="h-24 bg-violet-600/20 rounded-lg flex items-center justify-center mb-3">
+                    <MdPlayCircle size={32} className="text-violet-400" />
+                  </div>
+                  <p className="text-sm font-medium text-gray-200 mb-2">{course.title}</p>
+                  <div className="flex justify-between text-xs text-gray-400 mb-1">
+                    <span>Progresso</span>
+                    <span className="text-violet-400 font-semibold">{Math.round(course.progress_percentage)}%</span>
+                  </div>
+                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-violet-600 rounded-full"
+                      style={{ width: `${course.progress_percentage}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    {course.completed_lessons} de {course.total_lessons} aulas concluídas
+                  </p>
+                  <button className="w-full mt-3 py-2 rounded-lg bg-violet-600/20 text-violet-400 text-xs font-medium hover:bg-violet-600/30 transition-all">
+                    Continuar Aula
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Certificados */}
+        {data?.certificados && data.certificados.length > 0 && (
+          <div className="bg-secondary rounded-2xl p-5 border border-white/5">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm font-semibold text-gray-100">Certificados</p>
+            </div>
+            <div className="space-y-3">
+              {data.certificados.map((cert: any) => (
+                <div key={cert.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                  <MdStar size={20} className="text-yellow" />
+                  <p className="text-sm text-gray-200">{cert.title}</p>
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
-        {/* Progress Section */}
-        {data?.courses && <ProgressSection courses={data.courses} />}
-        {/* Activities & Certificate */}
-        {data?.courses && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-            <Activities />
-            <CertificateCard />
-          </div>
-        )}
       </div>
-
-      {/* FAB */}
       <FabButton />
     </div>
   );

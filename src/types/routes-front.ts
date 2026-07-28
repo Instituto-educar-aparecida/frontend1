@@ -9,6 +9,7 @@ export const studentRoutes = {
   dashboard: "/student/dashboard",
   courses: "/student/courses",
   courseDetail: "/student/courses/:courseId",
+  enrollment: "/student/enrollment",
 } as const;
 
 export const teacherRoutes = {

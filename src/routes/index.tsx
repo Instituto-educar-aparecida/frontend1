@@ -15,9 +15,12 @@ import CoursesPage from "@/feature/courses/pages";
 import VideoLesson from "@/feature/video-lesson/page";
 import TeacherDashboard from "@/feature/teacher-dashboard/page";
 import ManageLessonsPage from "@/feature/teacher-dashboard/pages/manage-lessons";
+import TeacherModulesPage from "@/feature/teacher-dashboard/pages/modules";
 import AdminDashboard from "@/feature/admin/dashboard/pages";
 import AdminUsersPage from "@/feature/admin/users/pages";
 import AdminCoursesPage from "@/feature/admin/courses/pages";
+import { RegistrationClass } from "@/feature/registration-class/pages/registration-class";
+import CertificatesPage from "@/feature/student-dashboard/pages/certificates";
 
 import { routes } from "@/types/routes-front";
 
@@ -45,6 +48,8 @@ export const router = createBrowserRouter([
           { path: routes.student.dashboard, element: <StudentDashboard /> },
           { path: routes.student.courses, element: <CoursesPage /> },
           { path: routes.student.courseDetail, element: <VideoLesson /> },
+          { path: "/student/enrollment", element: <RegistrationClass /> },
+          { path: "/student/certificates", element: <CertificatesPage /> },
         ],
       },
       {
@@ -60,6 +65,7 @@ export const router = createBrowserRouter([
         children: [
           { path: routes.teacher.dashboard, element: <TeacherDashboard /> },
           { path: routes.teacher.lessons, element: <ManageLessonsPage /> },
+          { path: "/professor/modules", element: <TeacherModulesPage /> },
         ],
       },
     ],
