@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
-import { MdStar, MdDownload, MdEmojiEvents } from "react-icons/md";
+import { MdStar, MdSchedule, MdEmojiEvents } from "react-icons/md";
 
 interface Certificate {
   id: string;
   course_title: string;
   issued_at: string;
-  certificate_url: string | null;
+  verification_code: string;
+  pdf_url: string | null;
 }
 
 function useCertificates() {
@@ -25,7 +26,6 @@ export default function CertificatesPage() {
   return (
     <div className="overflow-y-auto h-[calc(100vh-70px)] px-8 py-6 bg-primary">
       <div className="max-w-4xl mx-auto">
-
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-100">Certificados</h1>
           <p className="text-sm text-gray-400 mt-1">
@@ -64,19 +64,13 @@ export default function CertificatesPage() {
                     <p className="text-xs text-gray-400 mb-4">
                       Emitido em {new Date(cert.issued_at).toLocaleDateString("pt-BR")}
                     </p>
-                    {cert.certificate_url ? (
-                      
-                      <a
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg bg-violet-600/20 text-violet-400 hover:bg-violet-600/30 transition-all w-fit"
-                      >
-                        <MdDownload size={14} />
-                        Baixar certificado
-                      </a>
-                    ) : (
-                      <span className="text-xs text-gray-500">Certificado em processamento</span>
-                    )}
+                    <div className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg bg-yellow/10 text-yellow w-fit mb-2">
+                      <MdSchedule size={14} />
+                      Download em PDF disponível em breve
+                    </div>
+                    <p className="text-xs text-gray-500 font-mono">
+                      Código: {cert.verification_code}
+                    </p>
                   </div>
                 </div>
               </div>

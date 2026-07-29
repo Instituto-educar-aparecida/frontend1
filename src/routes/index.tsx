@@ -28,6 +28,8 @@ import AdminReportsPage from "@/feature/admin/pages/reports";
 import AdminSystemPage from "@/feature/admin/pages/system";
 import { RegistrationClass } from "@/feature/registration-class/pages/registration-class";
 import CertificatesPage from "@/feature/student-dashboard/pages/certificates";
+import SettingsPage from "@/feature/student-dashboard/pages/settings";
+import HelpPage from "@/feature/student-dashboard/pages/help";
 
 import { routes } from "@/types/routes-front";
 
@@ -57,6 +59,8 @@ export const router = createBrowserRouter([
           { path: routes.student.courseDetail, element: <VideoLesson /> },
           { path: "/student/enrollment", element: <RegistrationClass /> },
           { path: "/student/certificates", element: <CertificatesPage /> },
+          { path: "/student/settings", element: <SettingsPage /> },
+          { path: "/student/help", element: <HelpPage /> },
         ],
       },
       {

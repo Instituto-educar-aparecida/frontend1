@@ -84,7 +84,7 @@ export function Sidebar() {
                   <span className="text-label font-bold pl-4">SUPORTE</span>
                 </div>
               )}
-              <ItemSidebar title="Ajuda" to="#" icon={IoMdHelpCircleOutline} />
+              <ItemSidebar title="Ajuda" to="/student/help" icon={IoMdHelpCircleOutline} />
               <ItemSidebar title="Configurações" to="/student/settings" icon={IoSettingsOutline} />
             </>
           )}
