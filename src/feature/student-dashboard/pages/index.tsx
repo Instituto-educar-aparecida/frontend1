@@ -5,10 +5,12 @@ import { MdPlayCircle, MdStar } from "react-icons/md";
 import { useStudentDashboard } from "../hooks/use-student-dashboard";
 import { useAuthStore } from "@/store/use-auth-store";
 import { FabButton } from "../components/fa-button";
+import { useNavigate } from "react-router";
 
 const StudentDashboard = () => {
   const { data, isLoading } = useStudentDashboard();
   const { user } = useAuthStore();
+  const navigate = useNavigate();
 
   return (
     <div className="overflow-y-auto h-[calc(100vh-70px)] px-8 py-6 bg-primary">
@@ -70,7 +72,10 @@ const StudentDashboard = () => {
         <div className="bg-secondary rounded-2xl p-5 border border-white/5 mb-6">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-semibold text-gray-100">Seu Progresso</p>
-            <button className="text-xs text-violet-400 hover:text-violet-300 transition-all">
+            <button
+              onClick={() => navigate("/student/courses")}
+              className="text-xs text-violet-400 hover:text-violet-300 transition-all"
+            >
               Ver todos os cursos
             </button>
           </div>
@@ -81,7 +86,10 @@ const StudentDashboard = () => {
             <div className="text-center py-8">
               <MdPlayCircle size={36} className="text-gray-600 mx-auto mb-2" />
               <p className="text-sm text-gray-400">Nenhum curso em andamento.</p>
-              <button className="mt-3 text-xs text-violet-400 hover:text-violet-300 transition-all">
+              <button
+                onClick={() => navigate("/student/courses")}
+                className="mt-3 text-xs text-violet-400 hover:text-violet-300 transition-all"
+              >
                 Explorar cursos →
               </button>
             </div>
@@ -106,7 +114,10 @@ const StudentDashboard = () => {
                   <p className="text-xs text-gray-500 mt-2">
                     {course.completed_lessons} de {course.total_lessons} aulas concluídas
                   </p>
-                  <button className="w-full mt-3 py-2 rounded-lg bg-violet-600/20 text-violet-400 text-xs font-medium hover:bg-violet-600/30 transition-all">
+                  <button
+                    onClick={() => navigate(`/student/courses/${course.id}`)}
+                    className="w-full mt-3 py-2 rounded-lg bg-violet-600/20 text-violet-400 text-xs font-medium hover:bg-violet-600/30 transition-all"
+                  >
                     Continuar Aula
                   </button>
                 </div>

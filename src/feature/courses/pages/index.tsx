@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import api from "@/lib/axios";
 import { MdBook, MdPlayCircle, MdSearch } from "react-icons/md";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 interface Course {
   id: string;
@@ -27,7 +27,8 @@ function useCoursesPage() {
 
 export default function CoursesPage() {
   const { data: courses = [], isLoading } = useCoursesPage();
-  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("search") ?? "");
   const navigate = useNavigate();
 
   const filtered = courses.filter((c) =>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { IoMdNotifications } from "react-icons/io";
 import { MdLogout } from "react-icons/md";
 import { useLogout } from "@/feature/auth/hooks/use-login";
+import { useNavigate } from "react-router";
 
 const roleLabel: Record<string, string> = {
   ADMIN: "Administrador",
@@ -16,6 +17,13 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { user } = useAuthStore();
   const logout = useLogout();
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && searchQuery.trim()) {
+      navigate(`/student/courses?search=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <header className="h-17.5 bg-primary border-b border-white/8 z-30 flex items-center justify-between px-4 min-[375px]:px-8">
@@ -29,6 +37,7 @@ const Navbar = () => {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={handleSearch}
         />
       </div>
 

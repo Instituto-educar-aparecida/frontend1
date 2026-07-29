@@ -13,4 +13,6 @@ export enum BackendRoutes {
   LESSON_PROGRESS_UPDATE = "/aula/progresso",
   CLASSROOM_COMPLETED = "/aula/progresso/concluidas",
   CLASSROOM_PROGRESS = "/aula/progresso/:lesson_id",
+  STUDENT_COURSES = "/students/courses",
+  ACTIVITIES = "/activities",
 }
