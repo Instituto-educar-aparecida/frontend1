@@ -16,9 +16,16 @@ import VideoLesson from "@/feature/video-lesson/page";
 import TeacherDashboard from "@/feature/teacher-dashboard/page";
 import ManageLessonsPage from "@/feature/teacher-dashboard/pages/manage-lessons";
 import TeacherModulesPage from "@/feature/teacher-dashboard/pages/modules";
+import CreateCoursePage from "@/feature/teacher-dashboard/pages/create-course";
+import TeacherStudentsPage from "@/feature/teacher-dashboard/pages/students";
+import ModuleDetailPage from "@/feature/teacher-dashboard/pages/module-detail";
+import TeacherCommentsPage from "@/feature/teacher-dashboard/pages/comments";
+import TeacherReportsPage from "@/feature/teacher-dashboard/pages/reports";
 import AdminDashboard from "@/feature/admin/dashboard/pages";
 import AdminUsersPage from "@/feature/admin/users/pages";
 import AdminCoursesPage from "@/feature/admin/courses/pages";
+import AdminReportsPage from "@/feature/admin/pages/reports";
+import AdminSystemPage from "@/feature/admin/pages/system";
 import { RegistrationClass } from "@/feature/registration-class/pages/registration-class";
 import CertificatesPage from "@/feature/student-dashboard/pages/certificates";
 
@@ -58,6 +65,8 @@ export const router = createBrowserRouter([
           { path: routes.admin.dashboard, element: <AdminDashboard /> },
           { path: routes.admin.users, element: <AdminUsersPage /> },
           { path: routes.admin.courses, element: <AdminCoursesPage /> },
+          { path: "/admin/reports", element: <AdminReportsPage /> },
+          { path: "/admin/system", element: <AdminSystemPage /> },
         ],
       },
       {
@@ -66,6 +75,11 @@ export const router = createBrowserRouter([
           { path: routes.teacher.dashboard, element: <TeacherDashboard /> },
           { path: routes.teacher.lessons, element: <ManageLessonsPage /> },
           { path: "/professor/modules", element: <TeacherModulesPage /> },
+          { path: "/professor/courses/new", element: <CreateCoursePage /> },
+          { path: "/professor/students", element: <TeacherStudentsPage /> },
+          { path: "/professor/modules/:moduleId", element: <ModuleDetailPage /> },
+          { path: "/professor/comments", element: <TeacherCommentsPage /> },
+          { path: "/professor/reports", element: <TeacherReportsPage /> },
         ],
       },
     ],

@@ -15,7 +15,7 @@ export interface AdminCourse {
 
 export const coursesAdminService = {
   listPending: async (): Promise<AdminCourse[]> => {
-    const response = await api.get("/admin/courses/pending");
+    const response = await api.get("/courses");
     return response.data.data;
   },
 

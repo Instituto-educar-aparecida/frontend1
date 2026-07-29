@@ -4,15 +4,15 @@ import { useAdminCourses, useUpdateCourseStatus, useSetCourseFeatured } from "..
 
 const statusLabel: Record<string, string> = {
   PENDING: "Pendente",
-  ACTIVE: "Ativo",
-  INACTIVE: "Inativo",
+  APPROVED: "Aprovado",
+  REJECTED: "Reprovado",
   REVISION: "Em revisão",
 };
 
 const statusColor: Record<string, string> = {
   PENDING: "bg-yellow/10 text-yellow",
-  ACTIVE: "bg-green/10 text-green",
-  INACTIVE: "bg-red/10 text-red",
+  APPROVED: "bg-green/10 text-green",
+  REJECTED: "bg-red/10 text-red",
   REVISION: "bg-blue/10 text-blue",
 };
 
@@ -43,7 +43,7 @@ export default function AdminCoursesPage() {
           {[
             { label: "Total", value: courses.length, color: "text-gray-100" },
             { label: "Pendentes", value: courses.filter(c => c.status === "PENDING").length, color: "text-yellow" },
-            { label: "Ativos", value: courses.filter(c => c.status === "ACTIVE").length, color: "text-green" },
+            { label: "Ativos", value: courses.filter(c => c.status === "APPROVED").length, color: "text-green" },
           ].map((s) => (
             <div key={s.label} className="bg-secondary rounded-2xl p-4 border border-white/5">
               <p className="text-xs text-gray-400 mb-1">{s.label}</p>
@@ -93,9 +93,9 @@ export default function AdminCoursesPage() {
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${statusColor[course.status] || "bg-gray-600/20 text-gray-400"}`}>
                       {statusLabel[course.status] || course.status}
                     </span>
-                    <div className="flex gap-2 mt-3">
+                    {course.status === "PENDING" && <div className="flex gap-2 mt-3">
                       <button
-                        onClick={() => updateStatus.mutate({ id: course.id, status: "ACTIVE" })}
+                        onClick={() => updateStatus.mutate({ id: course.id, status: "APPROVED" })}
                         className="flex-1 flex items-center justify-center gap-1 py-1.5 rounded-lg bg-green/10 text-green text-xs hover:bg-green/20 transition-all"
                       >
                         <MdCheckCircle size={14} /> Aprovar
@@ -106,7 +106,7 @@ export default function AdminCoursesPage() {
                       >
                         <MdCancel size={14} /> Revisar
                       </button>
-                    </div>
+                    </div>}
                   </div>
                 </div>
               ))}

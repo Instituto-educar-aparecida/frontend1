@@ -1,36 +1,99 @@
 import { useState } from "react";
-import { MdCheckCircle, MdPlayCircle, MdEdit, MdDelete } from "react-icons/md";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import api from "@/lib/axios";
+import { MdPlayCircle, MdEdit, MdDelete, MdCheckCircle } from "react-icons/md";
 
-const mockLessons = [
-  { id: "1", title: "Primeiros passos com Tailwind", module: "FRONTEND", duration: "12:45", status: "ATIVO" },
-  { id: "2", title: "React Hooks Avançados", module: "FRONTEND", duration: "24:20", status: "ATIVO" },
-  { id: "3", title: "Arquitetura de Dados", module: "BACKEND", duration: "45:10", status: "RASCUNHO" },
-];
+interface Lesson {
+  id: string;
+  title: string;
+  duration_seconds: number | null;
+}
 
-const statusColor: Record<string, string> = {
-  ATIVO: "bg-green/10 text-green",
-  RASCUNHO: "bg-yellow/10 text-yellow",
-};
+interface Module {
+  id: string;
+  name: string;
+  lessons: Lesson[];
+}
+
+interface Course {
+  id: string;
+  title: string;
+  modules: Module[];
+}
 
 export default function ManageLessonsPage() {
-  const [form, setForm] = useState({
-    title: "",
-    module: "",
-    videoUrl: "",
-    description: "",
-  });
+  const queryClient = useQueryClient();
+  const [selectedModule, setSelectedModule] = useState<string | null>(null);
+  const [form, setForm] = useState({ title: "", video_url: "", description: "" });
   const [saved, setSaved] = useState(false);
-  const [page, setPage] = useState(1);
-  const totalPages = 3;
+  const [error, setError] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState({ title: "", video_url: "", description: "" });
+
+  const { data: courses = [], isLoading } = useQuery<Course[]>({
+    queryKey: ["instructor-courses-full"],
+    queryFn: async () => {
+      const res = await api.get("/instructors/courses");
+      const list = res.data.data;
+      const details = await Promise.all(
+        list.map((c: Course) => api.get(`/courses/${c.id}`).then(r => r.data.data))
+      );
+      return details;
+    },
+  });
+
+  const createLesson = useMutation({
+    mutationFn: async () => {
+      await api.post(`/modules/${selectedModule}/lessons`, {
+        title: form.title,
+        video_url: form.video_url,
+        description: form.description,
+        duration_seconds: 0,
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["instructor-courses-full"] });
+      setSaved(true);
+      setForm({ title: "", video_url: "", description: "" });
+      setTimeout(() => setSaved(false), 2000);
+    },
+    onError: (err: any) => {
+      setError(err.response?.data?.message || "Erro ao salvar aula.");
+    },
+  });
+
+  const deleteLesson = useMutation({
+    mutationFn: async (id: string) => {
+      await api.delete(`/lessons/${id}`);
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["instructor-courses-full"] }),
+  });
+
+  const updateLesson = useMutation({
+    mutationFn: async (id: string) => {
+      await api.put(`/lessons/${id}`, editForm);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["instructor-courses-full"] });
+      setEditingId(null);
+    },
+    onError: (err: any) => setError(err.response?.data?.message || "Erro ao editar."),
+  });
 
   const handleSave = () => {
-    if (!form.title || !form.module) return;
-    setSaved(true);
-    setTimeout(() => {
-      setSaved(false);
-      setForm({ title: "", module: "", videoUrl: "", description: "" });
-    }, 2000);
+    if (!selectedModule) { setError("Selecione um módulo."); return; }
+    if (!form.title || !form.video_url || !form.description) { setError("Título, URL do vídeo e descrição são obrigatórios."); return; }
+    setError("");
+    createLesson.mutate();
   };
+
+  const allModules = courses.flatMap(c =>
+    c.modules.map(m => ({ ...m, courseTitle: c.title }))
+  );
+
+  const allLessons = allModules.flatMap(m =>
+    m.lessons.map(l => ({ ...l, moduleName: m.name }))
+  );
 
   return (
     <div className="overflow-y-auto h-[calc(100vh-70px)] px-8 py-6 bg-primary">
@@ -38,7 +101,7 @@ export default function ManageLessonsPage() {
 
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-100">Gestão de Conteúdo</h1>
-          <p className="text-sm text-gray-400 mt-1">Preencha os dados do conteúdo a ser disponibilizado.</p>
+          <p className="text-sm text-gray-400 mt-1">Crie e gerencie suas aulas.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -46,15 +109,27 @@ export default function ManageLessonsPage() {
           {/* Formulário */}
           <div className="bg-secondary rounded-2xl p-6 border border-white/5">
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-6 h-6 rounded bg-violet-600/20 flex items-center justify-center">
-                <MdPlayCircle size={14} className="text-violet-400" />
-              </div>
+              <MdPlayCircle size={18} className="text-violet-400" />
               <h2 className="text-sm font-semibold text-gray-100">Nova Aula</h2>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="text-xs text-gray-400 mb-1 block uppercase tracking-wide">Título da Aula</label>
+                <label className="text-xs text-gray-400 mb-1 block uppercase tracking-wide">Módulo *</label>
+                <select
+                  value={selectedModule || ""}
+                  onChange={(e) => setSelectedModule(e.target.value)}
+                  className="w-full bg-primary border border-white/10 rounded-lg px-3 py-2.5 text-sm text-gray-200 outline-none focus:border-violet-600 transition-all"
+                >
+                  <option value="">Selecione um módulo</option>
+                  {allModules.map(m => (
+                    <option key={m.id} value={m.id}>{m.courseTitle} — {m.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-xs text-gray-400 mb-1 block uppercase tracking-wide">Título da Aula *</label>
                 <input
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
@@ -64,31 +139,13 @@ export default function ManageLessonsPage() {
               </div>
 
               <div>
-                <label className="text-xs text-gray-400 mb-1 block uppercase tracking-wide">Módulo do Curso</label>
-                <select
-                  value={form.module}
-                  onChange={(e) => setForm({ ...form, module: e.target.value })}
-                  className="w-full bg-primary border border-white/10 rounded-lg px-3 py-2.5 text-sm text-gray-200 outline-none focus:border-violet-600 transition-all"
-                >
-                  <option value="">Selecione um módulo</option>
-                  <option value="FRONTEND">Frontend Moderno</option>
-                  <option value="BACKEND">Backend Node.js</option>
-                  <option value="DESIGN">Design Systems</option>
-                  <option value="DEVOPS">DevOps Básico</option>
-                </select>
-              </div>
-
-              <div>
                 <label className="text-xs text-gray-400 mb-1 block uppercase tracking-wide">URL do Vídeo</label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">🔗</span>
-                  <input
-                    value={form.videoUrl}
-                    onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
-                    placeholder="https://youtube.com/v/..."
-                    className="w-full bg-primary border border-white/10 rounded-lg pl-8 pr-3 py-2.5 text-sm text-gray-200 outline-none focus:border-violet-600 transition-all"
-                  />
-                </div>
+                <input
+                  value={form.video_url}
+                  onChange={(e) => setForm({ ...form, video_url: e.target.value })}
+                  placeholder="https://youtube.com/..."
+                  className="w-full bg-primary border border-white/10 rounded-lg px-3 py-2.5 text-sm text-gray-200 outline-none focus:border-violet-600 transition-all"
+                />
               </div>
 
               <div>
@@ -96,21 +153,20 @@ export default function ManageLessonsPage() {
                 <textarea
                   value={form.description}
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
-                  placeholder="Descreva o que os alunos aprenderão nesta aula..."
-                  rows={4}
+                  placeholder="Descreva o que os alunos aprenderão..."
+                  rows={3}
                   className="w-full bg-primary border border-white/10 rounded-lg px-3 py-2.5 text-sm text-gray-200 outline-none focus:border-violet-600 transition-all resize-none"
                 />
               </div>
 
+              {error && <p className="text-xs text-red bg-red/10 px-3 py-2 rounded-lg">{error}</p>}
+
               <button
                 onClick={handleSave}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 transition-all"
+                disabled={createLesson.isPending}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 transition-all disabled:opacity-50"
               >
-                {saved ? (
-                  <><MdCheckCircle size={18} /> Aula salva!</>
-                ) : (
-                  <><MdPlayCircle size={18} /> Salvar Aula</>
-                )}
+                {saved ? <><MdCheckCircle size={18} /> Aula salva!</> : "Salvar Aula"}
               </button>
             </div>
           </div>
@@ -118,56 +174,61 @@ export default function ManageLessonsPage() {
           {/* Lista de aulas */}
           <div className="bg-secondary rounded-2xl p-6 border border-white/5">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-sm font-semibold text-gray-100">Aulas Recentes</h2>
+              <h2 className="text-sm font-semibold text-gray-100">Aulas Cadastradas</h2>
               <span className="text-xs bg-violet-600/20 text-violet-400 px-2 py-0.5 rounded-full">
-                {mockLessons.length} total
+                {allLessons.length} total
               </span>
             </div>
 
-            <div className="space-y-3">
-              {mockLessons.map((lesson) => (
-                <div key={lesson.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all">
-                  <div className="w-10 h-10 rounded-lg bg-violet-600/20 flex items-center justify-center flex-shrink-0">
-                    <MdPlayCircle size={20} className="text-violet-400" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-200 font-medium truncate">{lesson.title}</p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className={`text-xs px-1.5 py-0.5 rounded font-medium ${statusColor[lesson.status]}`}>
-                        {lesson.module}
-                      </span>
-                      <span className="text-xs text-gray-500">{lesson.duration}</span>
+            {isLoading ? (
+              <p className="text-sm text-gray-400 text-center py-8">Carregando...</p>
+            ) : allLessons.length === 0 ? (
+              <div className="text-center py-8">
+                <MdPlayCircle size={36} className="text-gray-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-400">Nenhuma aula cadastrada ainda.</p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {allLessons.map((lesson) => (
+                  <div key={lesson.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition-all">
+                    <div className="w-10 h-10 rounded-lg bg-violet-600/20 flex items-center justify-center flex-shrink-0">
+                      <MdPlayCircle size={20} className="text-violet-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-gray-200 font-medium truncate">{lesson.title}</p>
+                      <p className="text-xs text-gray-500">{lesson.moduleName}</p>
+                    </div>
+                    <div className="flex gap-1">
+                      <button onClick={() => { setEditingId(lesson.id); setEditForm({ title: lesson.title, video_url: "", description: "" }); }} className="p-1.5 text-gray-500 hover:text-gray-300 transition-all">
+                        <MdEdit size={16} />
+                      </button>
+                      <button onClick={() => { if(window.confirm("Excluir esta aula?")) deleteLesson.mutate(lesson.id); }} className="p-1.5 text-gray-500 hover:text-red transition-all">
+                        <MdDelete size={16} />
+                      </button>
                     </div>
                   </div>
-                  <div className="flex gap-1">
-                    <button className="p-1.5 text-gray-500 hover:text-gray-300 transition-all">
-                      <MdEdit size={16} />
-                    </button>
-                    <button className="p-1.5 text-gray-500 hover:text-red transition-all">
-                      <MdDelete size={16} />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="flex items-center justify-between mt-4 pt-4 border-t border-white/5">
-              <span className="text-xs text-gray-500">Página {page} de {totalPages}</span>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setPage(p => Math.max(1, p - 1))}
-                  className="text-xs px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-violet-600/20 transition-all"
-                >←</button>
-                <button className="text-xs px-3 py-1 rounded-lg bg-violet-600 text-white">{page}</button>
-                <button
-                  onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                  className="text-xs px-3 py-1 rounded-lg bg-white/5 text-gray-400 hover:bg-violet-600/20 transition-all"
-                >→</button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+      {editingId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: "rgba(0,0,0,0.6)" }} onClick={() => setEditingId(null)}>
+          <div className="bg-secondary border border-white/10 rounded-2xl p-6 w-full max-w-md mx-4" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-lg font-semibold text-gray-100 mb-4">Editar Aula</h2>
+            <div className="space-y-4">
+              <input value={editForm.title} onChange={(e) => setEditForm({...editForm, title: e.target.value})} placeholder="Título" className="w-full bg-primary border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-200 outline-none focus:border-violet-600" />
+              <input value={editForm.video_url} onChange={(e) => setEditForm({...editForm, video_url: e.target.value})} placeholder="URL do vídeo" className="w-full bg-primary border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-200 outline-none focus:border-violet-600" />
+              <textarea value={editForm.description} onChange={(e) => setEditForm({...editForm, description: e.target.value})} placeholder="Descrição" rows={3} className="w-full bg-primary border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-200 outline-none focus:border-violet-600 resize-none" />
+              <div className="flex gap-3">
+                <button onClick={() => setEditingId(null)} className="flex-1 py-2 rounded-lg border border-white/10 text-sm text-gray-400 hover:bg-white/5">Cancelar</button>
+                <button onClick={() => updateLesson.mutate(editingId)} disabled={updateLesson.isPending} className="flex-1 py-2 rounded-lg bg-violet-600 text-white text-sm font-medium hover:bg-violet-700 disabled:opacity-50">Salvar</button>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -71,13 +71,13 @@ export const sideBarItems = [
       {
         id: 4,
         title: "Relatórios",
-        to: "#",
+        to: "/professor/reports",
         icon: BiSolidReport,
       },
       {
         id: 5,
         title: "Comentários",
-        to: "#",
+        to: "/professor/comments",
         icon: BiMessageSquare,
       },
     ],
@@ -103,10 +103,10 @@ export const sideBarItems = [
       {
         id: 4,
         title: "Relatórios",
-        to: "#",
+        to: "/admin/reports",
         icon: BiSolidReport,
       },
-      { id: 5, title: "Sistema", to: "#", icon: IoSettingsOutline },
+      { id: 5, title: "Sistema", to: "/admin/system", icon: IoSettingsOutline },
     ],
   },
 ];

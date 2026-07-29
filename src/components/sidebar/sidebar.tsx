@@ -1,5 +1,4 @@
 import { LuGraduationCap } from "react-icons/lu";
-import { Separator } from "../separator";
 import { IoMdHelpCircleOutline } from "react-icons/io";
 import { IoBookOutline, IoSettingsOutline } from "react-icons/io5";
 import { RiMedalLine } from "react-icons/ri";
@@ -78,53 +77,19 @@ export function Sidebar() {
               />
             ))}
           </ul>
-          {isOpen && (
-            <div className="pb-3 pt-3 overflow-hidden ">
-              <span className="text-label font-bold pl-4  ">SUPORTE</span>
-            </div>
+          {currentRole?.key === "student" && (
+            <>
+              {isOpen && (
+                <div className="pb-3 pt-3 overflow-hidden">
+                  <span className="text-label font-bold pl-4">SUPORTE</span>
+                </div>
+              )}
+              <ItemSidebar title="Ajuda" to="#" icon={IoMdHelpCircleOutline} />
+              <ItemSidebar title="Configurações" to="/student/settings" icon={IoSettingsOutline} />
+            </>
           )}
-          <ItemSidebar title="Ajuda" to="#" icon={IoMdHelpCircleOutline} />
-          <ItemSidebar
-            title="Configurações"
-            to="/student/settings"
-            icon={IoSettingsOutline}
-          />
+
         </nav>
-
-        {isOpen && (
-          <div>
-            <Separator />
-            <footer className="p-4 overflow-hidden">
-              <div className="bg-white/5 p-4 rounded-2xl h-24">
-                <span className="text-label font-bold leading-3.5">
-                  PLANO DE APRENDIZADO
-                </span>
-                <progress
-                  value={6}
-                  max={10}
-                  className="
-                 h-1.5 w-full bg-gray-200
-    rounded-full overflow-hidden
-    appearance-none border-0 shadow-none progress-smooth
-    [&::-webkit-progress-bar]:bg-gray-200
-    [&::-webkit-progress-bar]:rounded-full
-    [&::-webkit-progress-value]:bg-linear-to-r
-    [&::-webkit-progress-value]:from-violet-600
-    [&::-webkit-progress-value]:to-violet-600
-    [&::-webkit-progress-value]:rounded-full
-    /* Firefox - COR SÓLIDA */
-    [&::-moz-progress-bar]:bg-violet-600
-    [&::-moz-progress-bar]:rounded-full
-    "
-                />
-
-                <span className="text-label font-normal">
-                  24 de 30 dias concluídos
-                </span>
-              </div>
-            </footer>
-          </div>
-        )}
       </div>
     </aside>
   );

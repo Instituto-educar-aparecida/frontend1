@@ -1,23 +1,18 @@
 import {
   MdOutlineVideoLibrary,
   MdOutlineStackedLineChart,
-  MdOutlinePeople,
   MdMoreVert,
   MdAdd,
   MdStar,
 } from "react-icons/md";
 import { useTeacherDashboard } from "../hooks/use-teacher-dashboard";
 import { useAuthStore } from "@/store/use-auth-store";
-
-const mockComments = [
-  { initials: "MA", name: "Marcos André", time: "15min", text: "Professor, tive uma dúvida sobre o grid na aula 04. Pode me ajudar?" },
-  { initials: "FS", name: "Fernanda Silva", time: "19h", text: "Excelente aula! O exemplo facilitou muito o entendimento do conteúdo." },
-  { initials: "GL", name: "Gabriel Lima", time: "13h", text: "Onde posso baixar os assets citados no minuto 12:45?" },
-];
+import { useNavigate } from "react-router";
 
 export default function TeacherDashboard() {
   const { data, isLoading } = useTeacherDashboard();
   const { user } = useAuthStore();
+  const navigate = useNavigate();
 
   const stats = [
     {
@@ -29,14 +24,14 @@ export default function TeacherDashboard() {
     },
     {
       icon: MdOutlineStackedLineChart,
-      label: "MATRÍCULAS",
+      label: "MATRICULAS",
       value: isLoading ? "..." : String(data?.summary.total_enrollments ?? 0),
       status: "Total de alunos",
       color: "text-violet-300 bg-violet-400/10",
     },
     {
       icon: MdStar,
-      label: "AVALIAÇÃO MÉDIA",
+      label: "AVALIACAO MEDIA",
       value: isLoading ? "..." : Number(data?.summary.average_rating ?? 0).toFixed(1),
       status: "De 5.0",
       color: "text-yellow bg-yellow/10",
@@ -50,18 +45,18 @@ export default function TeacherDashboard() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-bold text-gray-100">
-              Olá, {user?.name || "Professor"}! 👋
+              Ola, {user?.name || "Professor"}!
             </h1>
             <p className="text-sm text-gray-400 mt-1">
-              Bem-vindo ao seu painel de gestão educacional.
+              Bem-vindo ao seu painel de gestao educacional.
             </p>
           </div>
           <button
-            onClick={() => window.location.href = "/professor/lessons"}
+            onClick={() => navigate("/professor/courses/new")}
             className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg text-sm font-medium hover:bg-violet-700 transition-all"
           >
             <MdAdd size={18} />
-            Cadastrar Nova Aula
+            Novo Curso
           </button>
         </div>
 
@@ -85,7 +80,7 @@ export default function TeacherDashboard() {
           <div className="bg-secondary rounded-2xl p-5 border border-white/5">
             <div className="flex items-center justify-between mb-4">
               <p className="text-sm font-semibold text-gray-100">Meus Cursos</p>
-              <button className="text-xs text-violet-400 hover:text-violet-300 transition-all">Ver tudo</button>
+              <button onClick={() => navigate("/professor/courses/new")} className="text-xs text-violet-400 hover:text-violet-300 transition-all">+ Novo</button>
             </div>
             {isLoading ? (
               <p className="text-center text-gray-400 py-8 text-sm">Carregando...</p>
@@ -93,11 +88,8 @@ export default function TeacherDashboard() {
               <div className="text-center py-8">
                 <MdOutlineVideoLibrary size={36} className="text-gray-600 mx-auto mb-2" />
                 <p className="text-sm text-gray-400">Nenhum curso cadastrado ainda.</p>
-                <button
-                  onClick={() => window.location.href = "/professor/lessons"}
-                  className="mt-3 text-xs text-violet-400 hover:text-violet-300 transition-all"
-                >
-                  Criar primeiro curso →
+                <button onClick={() => navigate("/professor/courses/new")} className="mt-3 text-xs text-violet-400 hover:text-violet-300 transition-all">
+                  Criar primeiro curso
                 </button>
               </div>
             ) : (
@@ -122,27 +114,17 @@ export default function TeacherDashboard() {
 
           <div className="bg-secondary rounded-2xl p-5 border border-white/5">
             <div className="flex items-center justify-between mb-4">
-              <p className="text-sm font-semibold text-gray-100">Comentários</p>
-              <span className="text-xs bg-violet-600 text-white px-2 py-0.5 rounded-full">12 novos</span>
+              <p className="text-sm font-semibold text-gray-100">Comentarios</p>
+              <span className="text-xs bg-violet-600/20 text-violet-400 px-2 py-0.5 rounded-full">Em breve</span>
             </div>
-            <div className="space-y-4">
-              {mockComments.map((c) => (
-                <div key={c.name} className="flex gap-3">
-                  <div className="w-8 h-8 rounded-full bg-violet-600/30 flex items-center justify-center text-xs font-bold text-violet-300 flex-shrink-0">
-                    {c.initials}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <p className="text-xs font-medium text-gray-200">{c.name}</p>
-                      <p className="text-xs text-gray-500">{c.time}</p>
-                    </div>
-                    <p className="text-xs text-gray-400 leading-relaxed">{c.text}</p>
-                    <button className="text-xs text-violet-400 hover:text-violet-300 mt-1 transition-all">Responder</button>
-                  </div>
-                </div>
-              ))}
+            <div className="text-center py-8">
+              <p className="text-sm text-gray-400 mb-3">Sistema de comentarios disponivel em breve.</p>
+              <button onClick={() => navigate("/professor/comments")} className="text-xs text-violet-400 hover:text-violet-300 transition-all">
+                Ver pagina de comentarios
+              </button>
             </div>
           </div>
+
         </div>
       </div>
     </div>

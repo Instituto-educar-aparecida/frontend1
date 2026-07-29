@@ -5,12 +5,6 @@ import { useAdminUsers } from "@/feature/admin/users/hooks/use-admin-users";
 const weekDays = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"];
 const weekValues = [40, 65, 35, 80, 55, 70, 30];
 
-const distribution = [
-  { label: "Alunos Premium", value: 65, color: "bg-violet-600" },
-  { label: "Alunos Free", value: 25, color: "bg-blue" },
-  { label: "Professores", value: 10, color: "bg-green" },
-];
-
 export default function AdminDashboard() {
   const { data: dashboard, isLoading } = useAdminDashboard();
   const { data: users = [] } = useAdminUsers();
@@ -85,7 +79,7 @@ export default function AdminDashboard() {
             <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="text-sm font-semibold text-gray-100">Crescimento da Plataforma</p>
-                <p className="text-xs text-gray-400">Engajamento semanal de novos usuários</p>
+                <p className="text-xs text-gray-400">Engajamento semanal — dados ilustrativos</p>
               </div>
               <div className="flex gap-2">
                 {["7D", "30D", "12M"].map((p) => (
@@ -109,17 +103,23 @@ export default function AdminDashboard() {
             <p className="text-sm font-semibold text-gray-100 mb-1">Distribuição</p>
             <p className="text-xs text-gray-400 mb-4">Por categoria de usuário</p>
             <div className="space-y-4">
-              {distribution.map((d) => (
-                <div key={d.label}>
-                  <div className="flex justify-between text-xs text-gray-400 mb-1">
-                    <span>{d.label}</span>
-                    <span className="font-semibold text-gray-200">{d.value}%</span>
+              {[
+                { label: "Alunos", value: Number(dashboard?.overview.total_students ?? 0), total: Number(dashboard?.overview.total_users ?? 1), color: "bg-violet-600" },
+                { label: "Professores", value: Number(dashboard?.overview.total_instructors ?? 0), total: Number(dashboard?.overview.total_users ?? 1), color: "bg-green" },
+              ].map((d) => {
+                const pct = d.total > 0 ? Math.round((d.value / d.total) * 100) : 0;
+                return (
+                  <div key={d.label}>
+                    <div className="flex justify-between text-xs text-gray-400 mb-1">
+                      <span>{d.label}</span>
+                      <span className="font-semibold text-gray-200">{d.value} ({pct}%)</span>
+                    </div>
+                    <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                      <div className={`h-full rounded-full ${d.color}`} style={{ width: `${pct}%` }} />
+                    </div>
                   </div>
-                  <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-                    <div className={`h-full rounded-full ${d.color}`} style={{ width: `${d.value}%` }} />
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
             <button className="mt-6 text-xs text-violet-400 hover:text-violet-300 font-semibold transition-all">
               VER DETALHES →

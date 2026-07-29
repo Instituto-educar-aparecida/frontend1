@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 import api from "@/lib/axios";
 import { MdAdd, MdBook, MdClose, MdCheckCircle } from "react-icons/md";
 
@@ -17,6 +18,7 @@ interface Module {
 
 export default function TeacherModulesPage() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [selectedCourse, setSelectedCourse] = useState<string | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ name: "", description: "", order: "" });
@@ -134,7 +136,7 @@ export default function TeacherModulesPage() {
             ) : (
               <div className="space-y-3">
                 {modules.map((mod) => (
-                  <div key={mod.id} className="flex items-center gap-3 p-3 rounded-xl bg-white/5">
+                  <div key={mod.id} onClick={() => navigate(`/professor/modules/${mod.id}`)} className="flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 cursor-pointer transition-all">
                     <div className="w-8 h-8 rounded-lg bg-violet-600/20 flex items-center justify-center text-xs font-bold text-violet-400">
                       {mod.order || "—"}
                     </div>
