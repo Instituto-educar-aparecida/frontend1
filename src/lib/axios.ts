@@ -3,7 +3,7 @@ import { useAuthStore } from "../store/use-auth-store";
 import { navigate } from "./router";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:5173",
+  baseURL: import.meta.env.VITE_API_URL ?? "http://localhost:5173/api",
 });
 
 api.interceptors.request.use((config) => {
