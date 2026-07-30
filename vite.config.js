@@ -21,4 +21,8 @@ export default defineConfig({
       usePolling: true,
     },
   },
+  preview: {
+    host: "0.0.0.0",
+    allowedHosts: [".up.railway.app"],
+  },
 });
